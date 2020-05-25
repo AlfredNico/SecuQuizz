@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Families{% endblock %}
+
+{% block body %}
+    <h1>Families</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ family.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ family.title }}</td>
+            </tr>
+            <tr>
+                <th>Enfant</th>
+                <td>{{ family.enfant ? family.enfant|join(', ') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('families_index') }}">back to list</a>
+
+    <a href="{{ path('families_edit', {'id': family.id}) }}">edit</a>
+
+    {{ include('families/_delete_form.html.twig') }}
+{% endblock %}

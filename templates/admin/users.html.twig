@@ -1,0 +1,49 @@
+{% extends "base.html.twig" %}
+
+{% block title %} Listes des utilisateurs {% endblock %}
+
+{% block body %}
+    <h3>Listes des utilisateurs</h3>
+        <table class="table">
+        <thead>
+            <tr>
+                <th>N°</th>
+                <th>E-mail</th>
+                <th>Rôles</th>
+                <th>Nombre Articles</th>
+                <th>Nombre Question</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+       {# Boucler les utilisateur inscript dans nos base de données #}
+            {% for user in users %}
+                <tr>
+                    <td> {{ user.id }} </td>
+                    <td> {{ user.email }} </td>
+                    <td> 
+                        {% for role in user.roles %}
+                            {% if role == 'ROLE_USER' %}
+                                Utilisateur
+                            {% elseif role == 'ROLE_EDITOR' %}
+                                Administratuer
+                            {% elseif role == 'ROLE_ADMIN' %}
+                                Super Administrateur
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td> {{ user.families|length }} </td>
+                    <td> {{ user.questions|length }} </td>
+                    <td>
+                        <a href="{{ path('admin_modifier_utilisateur', {'id': user.id } ) }}" class="btn btn-sm btn-outline-primary">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <th>
+                    <td colspan="6">Il n'y a pas d'utilsatuer inscrit!</td>
+                </th>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
