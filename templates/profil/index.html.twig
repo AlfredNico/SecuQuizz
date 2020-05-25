@@ -9,14 +9,26 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/secu_quiz_2/src/Controller/ProfilController.php'|file_link(0) }}">src/Controller/ProfilController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/secu_quiz_2/templates/profil/index.html.twig'|file_link(0) }}">templates/profil/index.html.twig</a></code></li>
-    </ul>
-
+    <h1>Mon profile</h1>
     <a href="{{ path('profil_edit', {'id': app.user.id }) }}">Midifier mon profile</a>
+
+    <table>
+        <tr>
+            <th>Adresse mail d'utilisateur :</th>
+            <td> {{ app.user.email }} </td>
+        </tr>
+        <tr>
+            <th>Rôles :</th>
+            <td> 
+                {% if is_granted('ROLE_ADMIN') %}
+                    Super Administrateur
+                {% elseif is_granted('ROLE_EDITOR') %}
+                    Administrateur
+                {% elseif is_granted('ROLE_USER') %}
+                    Utilisateur
+                {% endif %}
+            </td>
+        </tr>
+    </table>
 </div>
 {% endblock %}

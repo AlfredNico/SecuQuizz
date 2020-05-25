@@ -35,7 +35,7 @@ class QuestionController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="question_new")
+     * @Route("/new", name="new")
      */
     public function new(Request $request, UserInterface $user = null): Response
     {

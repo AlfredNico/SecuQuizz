@@ -43,7 +43,7 @@
                         </li>
                     {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">A propos</a>
+                        <a class="nav-link" href="{{ path('about') }}">A propos</a>
                     </li>
                     </ul>
                     {# <form class="form-inline my-2 my-lg-0">
@@ -54,7 +54,7 @@
                     {% elseif is_granted('ROLE_EDITOR') %}
                         Administrateur
                     {% elseif is_granted('ROLE_USER') %}
-                        Utilisatuer
+                        Utilisateur
                     {% endif %}
                     <a class="nav-link" href="{{ path('app_logout') }}">
                         Déconnecter

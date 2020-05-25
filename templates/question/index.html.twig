@@ -8,6 +8,10 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-    {{ app.user.id }}
+    <a href="{{ path('questions_new') }}">Créer nouvlle question</a>
+
+    {% for question in questions %}
+        {{ question.title }}
+    {% endfor %}
 
 {% endblock %}
