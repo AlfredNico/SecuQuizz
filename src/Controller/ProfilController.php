@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
 * @Security("is_granted('ROLE_USER')")
@@ -30,14 +31,25 @@ class ProfilController extends AbstractController
     /**
      * @Route("/edit/{id}", name="edit")
      */
-    public function editProfil(Request $request, Users $user)
+    public function editProfil(Request $request, Users $user, UserPasswordEncoderInterface $passwordEncoder)
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            #Chiffre le mot de passe de l'utilisateur
+            #On chiffre le mot de passe
+            // ($request->request->get('password'));
+            // $user->setPassword(
+            //     $passwordEncoder->encodePassword($user, $request->request->get('password'))
+            // );
+
             //dd($request);
-            $this->getDoctrine()->getManager()->flush();
+            // $entityManager = $this->getDoctrine()->getManager();
+            // $entityManager->persist($user);
+            // $entityManager->flush();
+
+            $this->addFlash('message', 'Modification Mot de passe effectué avec succé!');
             return $this->redirectToRoute('profil_index');
         }
 

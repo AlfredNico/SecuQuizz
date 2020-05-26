@@ -9,6 +9,18 @@
 </style>
 
 <div class="example-wrapper">
+
+    {# On affiche tous nos message dans nos controller #}
+    {% for message in app.flashes('message') %}
+        <div class="alert alert-success" role="alert"> {{ message }} </div>
+    {% endfor %}
+    {% for message in app.flashes('dager') %}
+        <div class="alert alert-danger" role="alert"> {{ message }} </div>
+    {% endfor %}
+    {% for message in app.flashes('warning') %}
+        <div class="alert alert-warning" role="alert"> {{ message }} </div>
+    {% endfor %}
+    
     <h1>Mon profile</h1>
     <a href="{{ path('profil_edit', {'id': app.user.id }) }}">Midifier mon profile</a>
 
