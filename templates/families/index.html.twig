@@ -1,15 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Families index{% endblock %}
+{% block title %}Liste des articles{% endblock %}
 
 {% block body %}
-    <h1>Families index</h1>
+    <h1>Listes des Articles</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Title</th>
+                <th>Parent</th>
                 <th>Enfant</th>
                 <th>actions</th>
             </tr>
@@ -19,10 +20,11 @@
             <tr>
                 <td>{{ family.id }}</td>
                 <td>{{ family.title }}</td>
+                 <td>{{ family.parent }}</td>
                 <td>{{ family.enfant ? family.enfant|join(', ') : '' }}</td>
                 <td>
-                    <a href="{{ path('families_show', {'id': family.id}) }}">show</a>
-                    <a href="{{ path('families_edit', {'id': family.id}) }}">edit</a>
+                    <a href="{{ path('families_show', {'id': family.id}) }}">Détail</a>
+                    <a href="{{ path('families_edit', {'id': family.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}

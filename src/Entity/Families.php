@@ -20,9 +20,14 @@ class Families
     private $id;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $title;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $parent;
 
     /**
      * @ORM\Column(type="array", nullable=true)
@@ -50,14 +55,14 @@ class Families
         return $this->id;
     }
 
-    public function getTitle(): ?int
+    public function getparent(): ?int
     {
-        return $this->title;
+        return $this->parent;
     }
 
-    public function setTitle(?int $title): self
+    public function setParent(?int $parent): self
     {
-        $this->title = $title;
+        $this->parent = $parent;
 
         return $this;
     }
@@ -82,6 +87,18 @@ class Families
     public function setUsers(?Users $users): self
     {
         $this->users = $users;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
 
         return $this;
     }
