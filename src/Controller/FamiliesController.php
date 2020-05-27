@@ -10,11 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
- * @Security("is_granted('ROLE_USER')")
- * 
  * @Route("/families")
  */
 class FamiliesController extends AbstractController
@@ -40,10 +37,9 @@ class FamiliesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $family->setUsers($user);
-            dd($family);
-            // $entityManager = $this->getDoctrine()->getManager();
-            // $entityManager->persist($family);
-            // $entityManager->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($family);
+            $entityManager->flush();
 
             return $this->redirectToRoute('families_index');
         }

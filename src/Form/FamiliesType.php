@@ -14,17 +14,16 @@ class FamiliesType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('parent', EntityType::class, [
-                'class' => Families::class,
-                'choice_label' => 'title',
-                'label' => 'Parent'
-            ])
-            // ->add('parent', CollectionType::class, [
-            //     'entry_type' => FamiliesType::class,
-            //     'entry_options' => ['label' => false],
-            // ])
-            ->add('enfant')
             //->add('users')
+            ->add('parent', EntityType::class, array(
+                'class'         =>  Families::class,
+                'choice_label'  =>  'title',
+                'multiple'      =>  FALSE,
+                'expanded'      =>  FALSE,
+                'placeholder'   =>  '-- Choissir Article --',
+                'empty_data'    =>  null,
+                'required'      =>  FALSE,
+            ))
         ;
     }
 

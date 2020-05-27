@@ -25,16 +25,6 @@ class Families
     private $title;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $parent;
-
-    /**
-     * @ORM\Column(type="array", nullable=true)
-     */
-    private $enfant = [];
-
-    /**
      * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="families")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -45,38 +35,25 @@ class Families
      */
     private $competences;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Families::class, inversedBy="enfant")
+     */
+    private $parent;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Families::class, mappedBy="parent")
+     */
+    private $enfant;
+
     public function __construct()
     {
         $this->competences = new ArrayCollection();
+        $this->enfant = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getparent(): ?int
-    {
-        return $this->parent;
-    }
-
-    public function setParent(?int $parent): self
-    {
-        $this->parent = $parent;
-
-        return $this;
-    }
-
-    public function getEnfant(): ?array
-    {
-        return $this->enfant;
-    }
-
-    public function setEnfant(?array $enfant): self
-    {
-        $this->enfant = $enfant;
-
-        return $this;
     }
 
     public function getUsers(): ?Users
@@ -128,6 +105,49 @@ class Families
             // set the owning side to null (unless already changed)
             if ($competence->getFamilies() === $this) {
                 $competence->setFamilies(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getParent(): ?self
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?self $parent): self
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getEnfant(): Collection
+    {
+        return $this->enfant;
+    }
+
+    public function addEnfant(self $enfant): self
+    {
+        if (!$this->enfant->contains($enfant)) {
+            $this->enfant[] = $enfant;
+            $enfant->setParent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEnfant(self $enfant): self
+    {
+        if ($this->enfant->contains($enfant)) {
+            $this->enfant->removeElement($enfant);
+            // set the owning side to null (unless already changed)
+            if ($enfant->getParent() === $this) {
+                $enfant->setParent(null);
             }
         }
 
