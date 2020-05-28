@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Families;
 use App\Form\FamiliesType;
+use App\Form\ChoixniveauType;
 use App\Repository\FamiliesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,6 +36,30 @@ class FamiliesController extends AbstractController
     {
         $family = new Families();
         $form = $this->createForm(FamiliesType::class, $family);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $family->setUsers($user);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($family);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('families_index');
+        }
+
+        return $this->render('families/new.html.twig', [
+            'family' => $family,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/choixNiveau", name="families_choix_niveau", methods={"GET","POST"})
+     */
+    public function choixNiveau(Request $request, UserInterface $user=null): Response
+    {
+        $family = new Families();
+        $form = $this->createForm(ChoixniveauType::class, $family);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

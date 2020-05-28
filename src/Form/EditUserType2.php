@@ -13,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-class EditUserType extends AbstractType
+class EditUserType2 extends AbstractType
 {
 
     
@@ -42,6 +42,11 @@ class EditUserType extends AbstractType
                 'expanded' => true,
                 'multiple' => true,
                 'label' => 'Rôles'
+            ])
+            ->add('niveaux', EntityType::class, [
+                'class' => Niveau::class,
+                'choice_label' => 'title',
+                'multiple' => true
             ])
             ->add('submit', SubmitType::class, [
                     'label'=>'Valider', 

@@ -3,6 +3,7 @@
 namespace App\Controller;
 use App\Entity\Users;
 use App\Form\EditUserType;
+use App\Form\EditUserType2;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -42,6 +43,32 @@ class AdminCotrollerController extends AbstractController
      */
     public function EditUser(Users $user, Request $request){
         $form = $this->createForm(EditUserType::class, $user);
+        //Analyser les requete apres la validation du champs
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManger = $this->getDoctrine()->getManager();
+            $entityManger->persist($user);
+            $entityManger->flush();
+
+            dump($request);
+
+            $this->addFlash('message', 'Utilisatuer modifié avec succès!');
+            return $this->redirectToRoute('admin_utilisateurs');
+        }
+
+        return $this->render('admin/edituser.html.twig', [
+            'userForm' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * Edier un Utilisateur
+     * 
+     * @Route("/utilisateur/EditerAdmin/{id}", name="modifier_admin_user")
+     */
+    public function EditUser2(Users $user, Request $request){
+        $form = $this->createForm(EditUserType2::class, $user);
         //Analyser les requete apres la validation du champs
         $form->handleRequest($request);
 

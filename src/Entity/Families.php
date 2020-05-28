@@ -45,6 +45,12 @@ class Families
      */
     private $enfant;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Niveau::class, inversedBy="families")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $niveau;
+
     public function __construct()
     {
         $this->competences = new ArrayCollection();
@@ -150,6 +156,18 @@ class Families
                 $enfant->setParent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNiveau(): ?Niveau
+    {
+        return $this->niveau;
+    }
+
+    public function setNiveau(?Niveau $niveau): self
+    {
+        $this->niveau = $niveau;
 
         return $this;
     }

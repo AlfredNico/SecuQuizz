@@ -9,14 +9,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class FamiliesType extends AbstractType
+class ChoixniveauType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            //->add('users')
-            ->add('niveau', EntityType::class, array(
+            ->add('parent', EntityType::class, array(
                 'class'         =>  Niveau::class,
                 'choice_label'  =>  'title',
                 'multiple'      =>  FALSE,
@@ -28,10 +26,10 @@ class FamiliesType extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'data_class' => Families::class,
-        ]);
-    }
+    // public function configureOptions(OptionsResolver $resolver)
+    // {
+    //     $resolver->setDefaults([
+    //         'data_class' => Families::class,
+    //     ]);
+    // }
 }

@@ -12,6 +12,7 @@
                 <th>Rôles</th>
                 <th>Nombre Articles</th>
                 <th>Nombre Question</th>
+                <th>Niveau(s)</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -22,22 +23,34 @@
                     <td> {{ user.id }} </td>
                     <td> {{ user.email }} </td>
                     <td> 
+                    {% set test = 0 %}
                         {% for role in user.roles %}
                             {% if role == 'ROLE_USER' %}
-                                Utilisateur
+                               .User.
                             {% elseif role == 'ROLE_EDITOR' %}
-                                Administratuer
+                                {% set test = 1 %}
+                                .Admin User.
                             {% elseif role == 'ROLE_ADMIN' %}
-                                Super Administrateur
+                                .Super Admin.
                             {% endif %}
                         {% endfor %}
                     </td>
                     <td> {{ user.families|length }} </td>
                     <td> {{ user.questions|length }} </td>
+                    <td> 
+                        {% for niveau in user.niveaux %}
+                            {{ niveau.title }},
+                        {% endfor %}
+                    </td>
                     <td>
-                        <a href="{{ path('admin_modifier_utilisateur', {'id': user.id } ) }}" class="btn btn-sm btn-outline-primary">Modifier</a>
+                        {% if test == 1 %}
+                            <a href="{{ path('admin_modifier_admin_user', {'id': user.id } ) }}" class="btn btn-sm btn-outline-primary">Modifier</a>
+                        {% else %}
+                            <a href="{{ path('admin_modifier_utilisateur', {'id': user.id } ) }}" class="btn btn-sm btn-outline-primary">Modifier</a>
+                        {% endif %}
                     </td>
                 </tr>
+                {% set test = 0 %}
             {% else %}
                 <th>
                     <td colspan="6">Il n'y a pas d'utilsatuer inscrit!</td>

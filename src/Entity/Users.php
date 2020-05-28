@@ -65,10 +65,16 @@ class Users implements UserInterface
      */
     private $reset_token;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Niveau::class, inversedBy="users")
+     */
+    private $niveaux;
+
     public function __construct()
     {
         $this->families = new ArrayCollection();
         $this->questions = new ArrayCollection();
+        $this->niveaux = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -240,6 +246,32 @@ class Users implements UserInterface
     public function setResetToken(?string $reset_token): self
     {
         $this->reset_token = $reset_token;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Niveau[]
+     */
+    public function getNiveaux(): Collection
+    {
+        return $this->niveaux;
+    }
+
+    public function addNiveau(Niveau $niveau): self
+    {
+        if (!$this->niveaux->contains($niveau)) {
+            $this->niveaux[] = $niveau;
+        }
+
+        return $this;
+    }
+
+    public function removeNiveau(Niveau $niveau): self
+    {
+        if ($this->niveaux->contains($niveau)) {
+            $this->niveaux->removeElement($niveau);
+        }
 
         return $this;
     }
