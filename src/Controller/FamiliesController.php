@@ -21,6 +21,8 @@ class FamiliesController extends AbstractController
      */
     public function index(FamiliesRepository $familiesRepository): Response
     {
+        // dd($familiesRepository->findAll());
+
         return $this->render('families/index.html.twig', [
             'families' => $familiesRepository->findAll(),
         ]);

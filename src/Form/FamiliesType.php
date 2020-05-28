@@ -20,7 +20,7 @@ class FamiliesType extends AbstractType
                 'choice_label'  =>  'title',
                 'multiple'      =>  FALSE,
                 'expanded'      =>  FALSE,
-                'placeholder'   =>  '-- Choissir Article --',
+                'placeholder'   =>  '-- Choissiz Article --',
                 'empty_data'    =>  null,
                 'required'      =>  FALSE,
             ))
