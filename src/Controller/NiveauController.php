@@ -21,7 +21,7 @@ class NiveauController extends AbstractController
     public function index(NiveauRepository $niveauRepository): Response
     {
         return $this->render('niveau/index.html.twig', [
-            'niveaux' => $niveauRepository->findAll(),
+            'niveau' => $niveauRepository->findAll(),
         ]);
     }
 
@@ -83,7 +83,7 @@ class NiveauController extends AbstractController
      */
     public function delete(Request $request, Niveau $niveau): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$niveau->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $niveau->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($niveau);
             $entityManager->flush();

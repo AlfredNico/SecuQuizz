@@ -15,6 +15,7 @@
             </tr>
         </thead>
         <tbody>
+        {% set famili = null %}
         {% for family in families %}
             <tr>
                 <td>{{ family.id }}</td>
@@ -26,7 +27,7 @@
                         {% endfor %}  #}
                     {% endif %}
                  </td>
-                <td>{{ family.title }}</td>
+                <td><a href="{{ path('families_niveau', {'id': family.id}) }}">{{ family.title }}</a></td>
                 <td>
                     <a href="{{ path('families_show', {'id': family.id}) }}">show</a>
                     <a href="{{ path('families_edit', {'id': family.id}) }}">edit</a>
@@ -39,6 +40,14 @@
         {% endfor %}
         </tbody>
     </table>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('families_new_niveau1', {'niveau': '1'}) }}">Create new</a>
 
-    <a href="{{ path('families_new') }}">Create new</a>
+        {% else %}
+            {% for famil in familis %}
+                {% set famili = famil %}
+            {% endfor %}
+
+            <a href="{{ path('families_new', {'parent': famili.id,'niveau': famili.niveau.id}) }}">Create new</a>
+        {% endif %}
 {% endblock %}

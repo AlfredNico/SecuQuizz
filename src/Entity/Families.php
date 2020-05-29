@@ -26,7 +26,7 @@ class Families
 
     /**
      * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="families")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $users;
 

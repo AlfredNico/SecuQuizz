@@ -7,7 +7,7 @@
 
     {{ include('families/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('families_index') }}">back to list</a>
+    <a href="{{ path('families_niveau', {'id': family.parent.id}) }}">back to list</a>
 
     {{ include('families/_delete_form.html.twig') }}
 {% endblock %}

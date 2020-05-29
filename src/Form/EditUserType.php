@@ -16,10 +16,10 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 class EditUserType extends AbstractType
 {
 
-    
+
 
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {   
+    {
         $builder
             ->add('email', EmailType::class, [
                 'constraints' => [
@@ -44,11 +44,9 @@ class EditUserType extends AbstractType
                 'label' => 'Rôles'
             ])
             ->add('submit', SubmitType::class, [
-                    'label'=>'Valider', 
-                    'attr'=>['class'=>'btn btn-primary'
-                ]
-            ])
-        ;
+                'label' => 'Valider',
+                'attr' => ['class' => 'btn btn-primary']
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

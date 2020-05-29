@@ -18,7 +18,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('families_index') }}">back to list</a>
+    <a href="{{ path('families_niveau', {'id': family.parent.id}) }}">back to list</a>
 
     <a href="{{ path('families_edit', {'id': family.id}) }}">edit</a>
 

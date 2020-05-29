@@ -30,11 +30,6 @@ class Niveau
     private $ordre;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Users::class, mappedBy="niveaux")
-     */
-    private $users;
-
-    /**
      * @ORM\OneToMany(targetEntity=Families::class, mappedBy="niveau")
      */
     private $families;
@@ -70,34 +65,6 @@ class Niveau
     public function setOrdre(int $ordre): self
     {
         $this->ordre = $ordre;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Users[]
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(Users $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->addNiveau($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(Users $user): self
-    {
-        if ($this->users->contains($user)) {
-            $this->users->removeElement($user);
-            $user->removeNiveau($this);
-        }
 
         return $this;
     }

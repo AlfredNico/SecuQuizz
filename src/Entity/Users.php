@@ -51,7 +51,7 @@ class Users implements UserInterface
     private $families;
 
     /**
-     * @ORM\OneToMany(targetEntity=Questions::class, mappedBy="users", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Questions::class, mappedBy="users", orphanRemoval=false)
      */
     private $questions;
 
@@ -66,15 +66,21 @@ class Users implements UserInterface
     private $reset_token;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Niveau::class, inversedBy="users")
+     * @ORM\OneToOne(targetEntity=Niveau::class, cascade={"persist", "remove"})
      */
-    private $niveaux;
+    private $niveau;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Families::class, cascade={"persist", "remove"})
+     */
+    private $article;
+
+
 
     public function __construct()
     {
         $this->families = new ArrayCollection();
         $this->questions = new ArrayCollection();
-        $this->niveaux = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -218,11 +224,13 @@ class Users implements UserInterface
     }
 
 
-    function getPlainPassword() {
+    function getPlainPassword()
+    {
         return $this->plainPassword;
     }
 
-    function setPlainPassword($plainPassword) {
+    function setPlainPassword($plainPassword)
+    {
         $this->plainPassword = $plainPassword;
     }
 
@@ -250,28 +258,31 @@ class Users implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Niveau[]
-     */
-    public function getNiveaux(): Collection
+    public function getNiveau(): ?Niveau
     {
-        return $this->niveaux;
+        return $this->niveau;
     }
 
-    public function addNiveau(Niveau $niveau): self
+    public function setNiveau(?Niveau $niveau): self
     {
-        if (!$this->niveaux->contains($niveau)) {
-            $this->niveaux[] = $niveau;
-        }
+        $this->niveau = $niveau;
 
         return $this;
     }
 
-    public function removeNiveau(Niveau $niveau): self
+    public function __toString()
     {
-        if ($this->niveaux->contains($niveau)) {
-            $this->niveaux->removeElement($niveau);
-        }
+        return $this->niveau;
+    }
+
+    public function getArticle(): ?Families
+    {
+        return $this->article;
+    }
+
+    public function setArticle(?Families $article): self
+    {
+        $this->article = $article;
 
         return $this;
     }

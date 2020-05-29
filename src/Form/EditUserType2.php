@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Families;
 use App\Entity\Users;
 use App\Entity\Niveau;
 use Symfony\Component\Form\AbstractType;
@@ -16,10 +17,10 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 class EditUserType2 extends AbstractType
 {
 
-    
+
 
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {   
+    {
         $builder
             ->add('email', EmailType::class, [
                 'constraints' => [
@@ -43,17 +44,20 @@ class EditUserType2 extends AbstractType
                 'multiple' => true,
                 'label' => 'Rôles'
             ])
-            ->add('niveaux', EntityType::class, [
+            ->add('niveau', EntityType::class, [
                 'class' => Niveau::class,
                 'choice_label' => 'title',
-                'multiple' => true
+                'multiple' => false
+            ])
+            ->add('article', EntityType::class, [
+                'class' => Families::class,
+                'choice_label' => 'title',
+                'multiple' => false
             ])
             ->add('submit', SubmitType::class, [
-                    'label'=>'Valider', 
-                    'attr'=>['class'=>'btn btn-primary'
-                ]
-            ])
-        ;
+                'label' => 'Valider',
+                'attr' => ['class' => 'btn btn-primary']
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -36,7 +36,11 @@
 
                     {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('families_index') }}">Articles</a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a class="nav-link" href="{{ path('families_index', {'niveau': '1'}) }}">Articles</a>
+                        {% elseif (is_granted('ROLE_EDITOR')) and (app.user.article != "") %}
+                            <a class="nav-link" href="{{ path('families_niveau', {'id': app.user.article.id}) }}">Articles</a>
+                        {% endif %}
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('questions_list') }}">Questions</a>

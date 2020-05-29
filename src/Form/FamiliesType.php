@@ -14,18 +14,7 @@ class FamiliesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            //->add('users')
-            ->add('niveau', EntityType::class, array(
-                'class'         =>  Niveau::class,
-                'choice_label'  =>  'title',
-                'multiple'      =>  FALSE,
-                'expanded'      =>  FALSE,
-                'placeholder'   =>  '-- Choissir Niveau --',
-                'empty_data'    =>  null,
-                'required'      =>  FALSE,
-            ))
-        ;
+            ->add('title');
     }
 
     public function configureOptions(OptionsResolver $resolver)
