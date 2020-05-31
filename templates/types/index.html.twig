@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Types index{% endblock %}
+
+{% block body %}
+    <h1>Types index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for type in types %}
+            <tr>
+                <td>{{ type.id }}</td>
+                <td>{{ type.title }}</td>
+                <td>
+                    <a href="{{ path('types_show', {'id': type.id}) }}">show</a>
+                    <a href="{{ path('types_edit', {'id': type.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('types_new') }}">Create new</a>
+{% endblock %}

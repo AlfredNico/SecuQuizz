@@ -36,14 +36,48 @@
 
                     {% endif %}
                     <li class="nav-item">
+
+                        {% set niveaux = NiveauRepository.findAll() %}
+                        {% set min = 0 %}
+
+                        {% for niveau in niveaux %}
+                                {% if min == 0 %}
+                                    {% set min = niveau.id %}
+                                {% endif %}
+                                {% if niveau.id < min %}
+                                    {% set min = niveau.id %}
+                                {% endif %}
+                        {% endfor %}
                         {% if is_granted('ROLE_ADMIN') %}
-                            <a class="nav-link" href="{{ path('families_index', {'niveau': '1'}) }}">Articles</a>
+                            {% if min != 0 %}
+                                <a class="nav-link" href="{{ path('families_index', {'niveau': min}) }}">Articles</a>
+                            {# {% else %}
+                                <a class="nav-link" href="{{ path('families_index', {'niveau': min}) }}">{{min}}</a> #}
+                            {% endif %}   
                         {% elseif (is_granted('ROLE_EDITOR')) and (app.user.article != "") %}
-                            <a class="nav-link" href="{{ path('families_niveau', {'id': app.user.article.id}) }}">Articles</a>
+                            {% if app.user.article.id != null %}
+                                <a class="nav-link" href="{{ path('families_niveau', {'id': app.user.article.id}) }}">Articles</a>
+                            {% endif %}
                         {% endif %}
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('questions_list') }}">Questions</a>
+                        <a class="nav-link" href="{{ path('types_index') }}">Type</a>
+                    </li>
+                    <li class="nav-item">
+                        {# {% set families = FamiliesRepository.findAll() %}
+                        {% set minF = 0 %}
+                        
+                        {% for family in families %}
+                                {% if minF == 0 %}
+                                    {% set minF = family.id %}
+                                {% endif %}
+                                {% if family.id < minF %}
+                                    {% set minF = family.id %}
+                                {% endif %}
+                        {% endfor %}
+                        {% if minF != 0 %} #}
+                                <a class="nav-link" href="{{ path('questions_list') }}">Questions</a>
+                        {# {% endif %}  #}
                     </li>
                      {% if is_granted('ROLE_USER') %}
                         <li class="nav-item">

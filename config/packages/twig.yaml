@@ -1,2 +1,8 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+    # ...
+    globals:
+        # the value is the service's id
+        NiveauRepository: '@App\Repository\NiveauRepository'
+        # the value is the service's id
+        FamiliesRepository: '@App\Repository\FamiliesRepository'
