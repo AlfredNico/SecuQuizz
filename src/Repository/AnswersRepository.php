@@ -36,6 +36,19 @@ class AnswersRepository extends ServiceEntityRepository
     }
     */
 
+    /**
+     * @return Answers[] Returns an array of Answers objects
+     */
+    public function findByQuestion($value)
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.numc = :val')
+            ->setParameter('val', $value)
+            ->orderBy('l.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     /*
     public function findOneBySomeField($value): ?Answers
     {

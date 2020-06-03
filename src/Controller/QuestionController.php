@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+
 use App\Entity\Questions;
 use App\Form\QuestionType;
 
@@ -14,14 +15,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 /**
  * @Security("is_granted('ROLE_USER')")
  * 
- * @Route("/questions", name="questions_")
+ * @Route("/question", name="question_")
  */
 class QuestionController extends AbstractController
 {
     /**
      * @Route("/", name="list")
      */
-    public function index(UserInterface $user=null)
+    public function index(UserInterface $user = null)
     {
         //$user = new UserInterface();
         $questions = $this->getDoctrine()->getRepository(Questions::class)->findAll();
@@ -44,29 +45,29 @@ class QuestionController extends AbstractController
         $form->handleRequest($request);
         //$questions->getUsers($user->getId());
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             //$userId = new User
             //On recupere les images transmises;
             $images = $form->get('images')->getData();
             // $fichier = 'a.jpg';
-            if($images) {
+            if ($images) {
                 foreach ($images as $image) {
                     # code... 
                     //recuperer l'extension d'un image
-                    $fichier = md5(uniqid()) . '.' . $image->guessExtension();  
+                    $fichier = md5(uniqid()) . '.' . $image->guessExtension();
                     //Copier le fichier dans notre reperitoire pour le stocker
                     $image->move(
                         $this->getParameter('images_directory'),
                         $fichier
-                    ); 
-                    
+                    );
+
                     //On stocke l'image dans la base de données (de son nom)
                     $questions->setAttached($fichier);
                 }
             }
-            
+
             $questions->setUsers($user);
-        
+
             dd($questions);
             // $entityManager =$this->getDoctrine()->getManager();
             // $entityManager->persist($questions);

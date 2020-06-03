@@ -10,11 +10,12 @@
             <tr>
                 <th>Id</th>
                 <th>Title</th>
-                <th>Attached</th>
+                <th>Pièce jointe</th>
                 <th>TexteComplementaire</th>
                 <th>AutreTexte</th>
                 <th>Etat</th>
                 <th>Motif</th>
+                <th>User</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -23,11 +24,12 @@
             <tr>
                 <td>{{ question.id }}</td>
                 <td>{{ question.title }}</td>
-                <td>{{ question.attached }}</td>
+                <td><a href="{{ asset('uploads/pj/' ~ question.attached) }}">Voir pj (image ou video)</a></td>
                 <td>{{ question.texteComplementaire }}</td>
                 <td>{{ question.autreTexte }}</td>
                 <td>{{ question.etat }}</td>
                 <td>{{ question.motif }}</td>
+                <td>{{ question.users.email }}</td>
                 <td>
                     <a href="{{ path('questions_show', {'id': question.id}) }}">show</a>
                     <a href="{{ path('questions_edit', {'id': question.id}) }}">edit</a>

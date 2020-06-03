@@ -31,11 +31,6 @@ class Families
     private $users;
 
     /**
-     * @ORM\OneToMany(targetEntity=Competences::class, mappedBy="families", orphanRemoval=true)
-     */
-    private $competences;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Families::class, inversedBy="enfant")
      */
     private $parent;
@@ -82,37 +77,6 @@ class Families
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Competences[]
-     */
-    public function getCompetences(): Collection
-    {
-        return $this->competences;
-    }
-
-    public function addCompetence(Competences $competence): self
-    {
-        if (!$this->competences->contains($competence)) {
-            $this->competences[] = $competence;
-            $competence->setFamilies($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCompetence(Competences $competence): self
-    {
-        if ($this->competences->contains($competence)) {
-            $this->competences->removeElement($competence);
-            // set the owning side to null (unless already changed)
-            if ($competence->getFamilies() === $this) {
-                $competence->setFamilies(null);
-            }
-        }
 
         return $this;
     }

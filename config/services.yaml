@@ -7,6 +7,7 @@ parameters:
     # parametre le chemin pour stocker nos images
     # app.path.featured_images: /uploads/images/featured
     images_directory: '%kernel.project_dir%/public/uploads'
+    pj_directory: '%kernel.project_dir%/public/uploads/pj'
 services:
     # default configuration for services in *this* file
     _defaults:

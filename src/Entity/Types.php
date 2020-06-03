@@ -25,7 +25,7 @@ class Types
     private $title;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Questions::class, mappedBy="types")
+     * @ORM\OneToMany(targetEntity=Questions::class, mappedBy="type")
      */
     private $questions;
 
@@ -51,6 +51,11 @@ class Types
         return $this;
     }
 
+    public function __toString()
+    {
+        return $this->$title;
+    }
+
     /**
      * @return Collection|Questions[]
      */
@@ -63,7 +68,7 @@ class Types
     {
         if (!$this->questions->contains($question)) {
             $this->questions[] = $question;
-            $question->addType($this);
+            $question->setType($this);
         }
 
         return $this;
@@ -73,7 +78,10 @@ class Types
     {
         if ($this->questions->contains($question)) {
             $this->questions->removeElement($question);
-            $question->removeType($this);
+            // set the owning side to null (unless already changed)
+            if ($question->getType() === $this) {
+                $question->setType(null);
+            }
         }
 
         return $this;

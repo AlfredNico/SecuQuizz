@@ -16,8 +16,8 @@
                 <td>{{ question.title }}</td>
             </tr>
             <tr>
-                <th>Attached</th>
-                <td>{{ question.attached }}</td>
+                <th>Pièce jointe</th>
+                <td><a href="{{ asset('uploads/pj/' ~ question.attached) }}">Voir pj (image ou video)</a></td>
             </tr>
             <tr>
                 <th>TexteComplementaire</th>

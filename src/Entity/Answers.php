@@ -28,10 +28,20 @@ class Answers
     private $isAnswer;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Questions::class, inversedBy="answers")
+     * @ORM\ManyToOne(targetEntity=Questions::class, inversedBy="answers",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $questions;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $numc;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $lig;
 
     public function getId(): ?int
     {
@@ -70,6 +80,30 @@ class Answers
     public function setQuestions(?Questions $questions): self
     {
         $this->questions = $questions;
+
+        return $this;
+    }
+
+    public function getNumc(): ?int
+    {
+        return $this->numc;
+    }
+
+    public function setNumc(int $numc): self
+    {
+        $this->numc = $numc;
+
+        return $this;
+    }
+
+    public function getLig(): ?int
+    {
+        return $this->lig;
+    }
+
+    public function setLig(int $lig): self
+    {
+        $this->lig = $lig;
 
         return $this;
     }

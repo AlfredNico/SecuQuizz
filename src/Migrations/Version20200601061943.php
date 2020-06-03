@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200529145935 extends AbstractMigration
+final class Version20200601061943 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,9 +22,7 @@ final class Version20200529145935 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE users ADD article_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE users ADD CONSTRAINT FK_1483A5E97294869C FOREIGN KEY (article_id) REFERENCES families (id)');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_1483A5E97294869C ON users (article_id)');
+        $this->addSql('ALTER TABLE answers ADD lig INT NOT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -32,8 +30,6 @@ final class Version20200529145935 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE users DROP FOREIGN KEY FK_1483A5E97294869C');
-        $this->addSql('DROP INDEX UNIQ_1483A5E97294869C ON users');
-        $this->addSql('ALTER TABLE users DROP article_id');
+        $this->addSql('ALTER TABLE answers DROP lig');
     }
 }

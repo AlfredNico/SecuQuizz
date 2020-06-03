@@ -50,7 +50,7 @@ class Questions
     private $motif;
 
     /**
-     * @ORM\OneToMany(targetEntity=Answers::class, mappedBy="questions", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Answers::class, mappedBy="questions", orphanRemoval=true,cascade={"persist","remove"})
      */
     private $answers;
 
@@ -61,15 +61,15 @@ class Questions
     private $users;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Competences::class, inversedBy="questions")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="integer")
      */
-    private $competences;
+    private $numc;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Types::class, inversedBy="questions")
+     * @ORM\ManyToOne(targetEntity=Types::class, inversedBy="questions")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $types;
+    private $type;
 
     public function __construct()
     {
@@ -197,40 +197,26 @@ class Questions
         return $this;
     }
 
-    public function getCompetences(): ?Competences
+    public function getNumc(): ?int
     {
-        return $this->competences;
+        return $this->numc;
     }
 
-    public function setCompetences(?Competences $competences): self
+    public function setNumc(int $numc): self
     {
-        $this->competences = $competences;
+        $this->numc = $numc;
 
         return $this;
     }
 
-    /**
-     * @return Collection|Types[]
-     */
-    public function getTypes(): Collection
+    public function getType(): ?Types
     {
-        return $this->types;
+        return $this->type;
     }
 
-    public function addType(Types $type): self
+    public function setType(?Types $type): self
     {
-        if (!$this->types->contains($type)) {
-            $this->types[] = $type;
-        }
-
-        return $this;
-    }
-
-    public function removeType(Types $type): self
-    {
-        if ($this->types->contains($type)) {
-            $this->types->removeElement($type);
-        }
+        $this->type = $type;
 
         return $this;
     }
