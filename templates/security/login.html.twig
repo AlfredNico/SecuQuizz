@@ -1,9 +1,9 @@
 {% extends "baseLogin.html.twig" %}
 
-{# {% block title %}Log in!{% endblock %} #}
-
 {% block body %}
-    {# On affiche tous nos message dans nos controller #}
+    
+<div id="loginbox"> 
+     {# On affiche tous nos message dans nos controller #}
     {% for message in app.flashes('message') %}
         <div class="alert alert-success" role="alert"> {{ message }} </div>
     {% endfor %}
@@ -14,50 +14,62 @@
         <div class="alert alert-warning" role="alert"> {{ message }} </div>
     {% endfor %}
 
-    <form method="post" class="container" action="{{ path('app_login') }}">
+    <form class="form-vertical" method="post" action="{{ path('app_login') }}">
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
 
-        {% if app.user %}
+        {# {% if app.user %}
             <div class="mb-3">
                 You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
             </div>
-        {% endif %}
+        {% endif %} #}
 
         {% for message in app.flashes('success') %}
             <div class="alert alert-success">
                 {{ message }}
             </div>
         {% endfor %}
-
-        <h1 class="h3 mb-3 font-weight-normal text-center">Se Connecter</h1>
-        <div class="form-groupe">
-            <label for="inputEmail">E-mail</label>
-            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus placeholder="Adresse Mail">
-        </div>
-        <div class="form-group">
-            <label for="inputPassword">Mot de passe</label>
-            <input type="password" name="password" id="inputPassword" class="form-control" required placeholder="Mot de passe">
-        </div>
-        
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
-
-        {#
-            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-            See https://symfony.com/doc/current/security/remember_me.html
-
-            <div class="checkbox mb-3">
-                <label>
-                    <input type="checkbox" name="_remember_me"> Remember me
-                </label>
+        <div class="control-group normal_text"> <h3><img src="{{asset('build/images/Untitled-2.png')}}"></h3></div>
+        <div class="control-group">
+            <div class="controls">
+                <div class="main_input_box">
+                    <span class="add-on bg_lg"><i class="icon-user"> </i></span>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus placeholder="Adresse Mail">
+                    {# <input placeholder="Andresse Mail ..." required name="_username" type="text" class="form-control"> #}
+                </div>
             </div>
-        #}
-        <a href="{{ path('app_register') }}"> Créer nouvelle compte </a></br>
-        <a href="{{ path('app_forgotten_password') }}"> Mot de passe oublié </a></br>
-
-        <button class="btn btn-primary btn-block" type="submit">
-            Se connecter
-        </button>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <div class="main_input_box">
+                    <span class="add-on bg_ly"><i class="icon-lock"></i></span>
+                    <input type="password" name="password" id="inputPassword" class="form-control" required placeholder="Mot de passe">
+                    {# <input placeholder="Mot de Passe ..." required name="_password" type="password" class="form-control"> #}
+                </div>
+            </div>
+        </div>
+        <a href="{{ path('app_forgotten_password') }}" class="" id="to-login"> Mot de passe oublié</a>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
+        <div class="form-actions">
+            <span class="pull-left"><a href="{{ path('app_register') }}" class="flip-link btn btn-success" id="to-login">&laquo; Créer nouvelle Compte</a></span>
+            <span class="pull-right"><button type="submit" class="btn btn-success">Se Connecter</button></span>
+        </div>
     </form>
+    <form id="recoverform" action="#" class="form-vertical">
+        <p class="normal_text">Enter your e-mail address below and we will send you instructions how to recover a password.</p>
+        
+            <div class="controls">
+                <div class="main_input_box">
+                    <span class="add-on bg_lo"><i class="icon-envelope"></i></span><input type="text" placeholder="E-mail address" />
+                </div>
+            </div>
+        
+        <div class="form-actions">
+            <span class="pull-left"><a href="#" class="flip-link btn btn-success" id="to-login">&laquo; Back to login</a></span>
+            <span class="pull-right"><a class="btn btn-info"/>Reecover</a></span>
+        </div>
+    </form>
+</div>
+
 {% endblock %}
