@@ -5,49 +5,221 @@
 {% block body %}
     <h1>Families index</h1>
 
+    {% set min = 0 %}
+    {% set max = 0 %}
+    {% set NomMin = null %}
+    {% set niveaux = NiveauRepository.findAll() %}
+    {% for niveau in niveaux %}
+        {% if min == 0 %}
+            {% set min = niveau.id %}
+            {% set NomMin = niveau.title %}
+        {% endif %}
+        {% if niveau.id < min %}
+            {% set min = niveau.id %}
+        {% endif %}
+    {% endfor %}
+    {% set tab = [] %}
+    {% set i = 0 %}
+    {% for niveau in niveaux %}
+        {% if max == 0 %}
+            {% set max = niveau.id %}
+            {% set tab = tab | merge([max]) %}
+            {# {% set tab[0] = max %} #}
+            {% set i = i + 1 %}
+        {% endif %}
+        {% if niveau.id > max %}
+            {% set max = niveau.id %}
+            {% set tab = tab | merge([max]) %}
+            {# {% set tab[i] = max %} #}
+            {% set i = i + 1 %}
+        {% endif %}
+    {% endfor %}
+    {% set tablength = tab | length %}
+
+    {#     
+    {% elseif familis != null %}
+
+        {% set niveaux = NiveauRepository.findAll() %}
+        {% set famili = null %}
+        {% for famil in familis %}
+            {% set famili = famil %}
+        {% endfor %}
+
+        {% set ls = false %}
+        {% set NextNiveau = null %}
+        {% set NiveauActuelle = null %}
+        {% set test = false %}
+
+        {% for niveauPrec in niveaux %}
+        {% if niveauPrec.id == famili.niveau.id %}
+            {% set ls = true %}
+        {% elseif ls == true %}
+            {% set NiveauActuelle = niveauPrec %}
+            {% set test = true %}
+            {% set ls = false %}
+        {% elseif test == true and ls == false %}
+            {% set NextNiveau = niveauPrec %}
+            {% set test = false %}
+        {% endif %}
+    {% endfor %}
+    <p>Article niveau
+        {{ NiveauActuelle.id }}
+        :
+        {{ NiveauActuelle.title }}
+    </p>
+    <p>Parent :
+        {{ famili.title }}
+    </p>
+
+    {% endif %} #}
+    {% set famili1 = null %}
+    {% set idNiveau = null %}
+    {% set nomNiveau = null %}
+    {% set parentArticle = null %}
+    {% for famili1 in families %}
+        {% set idNiveau = famili1.niveau.id %}
+        {% set nomNiveau = famili1.niveau.title %}
+        {% if famili1.parent != null %}
+            {% set parentArticle = famili1.parent.title %}
+        {% endif %}
+
+    {% endfor %}
+    {% if familis == null %}
+        {% if idNiveau != null %}
+            <p>Article niveau
+                {{ idNiveau }}
+                :
+                {{ nomNiveau }}
+            </p>
+        {% else %}
+            <p>Article niveau
+                {{ min }}
+                :
+                {{ NomMin }}
+            </p>
+        {% endif %}
+        {% if parentArticle != null %}
+            <p>Parent :
+                {{ parentArticle }}
+            </p>
+        {% endif %}
+    {% else %}
+        {% set famili = null %}
+        {% for famil in familis %}
+            {% set famili = famil %}
+        {% endfor %}
+        {% set ls = false %}
+        {% set NextNiveau = null %}
+        {% set NiveauActuelle = null %}
+        {% set test = false %}
+        {% set niveaux = NiveauRepository.findAll() %}
+        {% for niveauPrec in niveaux %}
+            {% if niveauPrec.id == famili.niveau.id %}
+                {% set ls = true %}
+            {% elseif ls == true %}
+                {% set NiveauActuelle = niveauPrec %}
+                {% set test = true %}
+                {% set ls = false %}
+            {% elseif test == true and ls == false %}
+                {% set NextNiveau = niveauPrec %}
+                {% set test = false %}
+            {% endif %}
+        {% endfor %}
+        <p>Article niveau
+            {{ NiveauActuelle.id }}
+            :
+            {{ NiveauActuelle.title }}
+        </p>
+        <p>Parent :
+            {{ famili.title }}
+        </p>
+    {% endif %}
+
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Parent</th>
-                 <th>Title</th>
+                <th>Title</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
-        {% set famili = null %}
-        {% for family in families %}
-            <tr>
-                <td>{{ family.id }}</td>
-                 <td>
-                    {% if family.parent != null %}
-                        {{ family.parent.title }}
-                        {# {% for enf in items %}
-                            whi
-                        {% endfor %}  #}
-                    {% endif %}
-                 </td>
-                <td><a href="{{ path('families_niveau', {'id': family.id}) }}">{{ family.title }}</a></td>
-                <td>
-                    <a href="{{ path('families_show', {'id': family.id}) }}">show</a>
-                    <a href="{{ path('families_edit', {'id': family.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
+            {% for family in families %}
+                <tr>
+                    <td>{{ family.id }}</td>
+                    <td>
+                        {% if family.parent != null %}
+                            {{ family.parent.title }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {# {% if family.parent != null %} #}
+                        {% if is_granted('ROLE_ADMIN') and idNiveau == tab[tablength - 1] %}
+                            <a href="{{ path('questions_new', {'id': family.id}) }}">{{ family.title }}</a>
+                        {# {% elseif idNiveau == tab[tablength - 1] or NiveauActuelle.id == tab[tablength - 1] %}
+                            <a href="{{ path('questions_new', {'id': family.id}) }}">{{ family.title }}</a> #}
+                        {% else  %}
+                            <a href="{{ path('families_niveau', {'id': family.id}) }}">{{ family.title }}</a>
+                        {% endif %}
+                        {# {% endif %}
+                            <a href="{{ path('families_niveau2', {'id': family.id,'parent2': family.parent}) }}">{{ family.title }}</a>
+                    {% endif %} #}
+                    </td>
+                    <td>
+                        <a href="{{ path('families_show', {'id': family.id}) }}">show</a>
+                        <a href="{{ path('families_edit', {'id': family.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">no records found</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
-        {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('families_new_niveau1', {'niveau': '1'}) }}">Create new</a>
 
+    {% if is_granted('ROLE_ADMIN') %}
+
+        {% if familis == null %}
+            <a href="{{ path('families_new_niveau1', {'niveau': min}) }}">Create new</a>
         {% else %}
+            {% set famili = null %}
             {% for famil in familis %}
                 {% set famili = famil %}
             {% endfor %}
 
-            <a href="{{ path('families_new', {'parent': famili.id,'niveau': famili.niveau.id}) }}">Create new</a>
+            {% set ls = false %}
+            {% set NextNiveau = null %}
+            {% set NiveauActuelle = null %}
+            {% set test = false %}
+            {% set niveaux = NiveauRepository.findAll() %}
+            {% for niveauPrec in niveaux %}
+                {% if niveauPrec.id == famili.niveau.id %}
+                    {% set ls = true %}
+                {% elseif ls == true %}
+                    {% set NiveauActuelle = niveauPrec %}
+                    {% set test = true %}
+                    {% set ls = false %}
+                {% elseif test == true and ls == false %}
+                    {% set NextNiveau = niveauPrec %}
+                    {% set test = false %}
+                {% endif %}
+            {% endfor %}
+
+            {% if NextNiveau == null %}
+                <a href="{{ path('questions_index') }}">Creer une compétence</a>
+            {% else %}
+                <a
+                    href="{{ path('families_new', {'parent': famili.id,'niveau': NiveauActuelle.id}) }}">Create new</a>
+            {% endif %}
         {% endif %}
+    {% elseif is_granted('ROLE_EDITOR') and NiveauActuelle.id == tab[tablength - 1] %}
+        {# {{ tab[tablength - 1] }} #}
+        <a
+            href="{{ path('families_new', {'parent': famili.id,'niveau': NiveauActuelle.id}) }}">Creer une compétence</a>
+    {% elseif is_granted('ROLE_EDITOR') and idNiveau == tab[tablength - 1] %}
+        <a
+            href="{{ path('families_new', {'parent': famili.id,'niveau': NiveauActuelle.id}) }}">Creer une compétence</a>
+    {% endif %}
 {% endblock %}

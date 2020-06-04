@@ -27,7 +27,7 @@ class FamiliesController extends AbstractController
         // dd($familiesRepository->findAll());
 
         return $this->render('families/index.html.twig', [
-            'families' => $familiesRepository->findby(array('niveau' => $niveau)),
+            'families' => $familiesRepository->findby(array('niveau' => $niveau)), 'familis' => null
         ]);
     }
 
@@ -42,6 +42,18 @@ class FamiliesController extends AbstractController
             'families' => $familiesRepository->findby(array('parent' => $id)), 'familis' => $familiesRepository->findby(array('id' => $id))
         ]);
     }
+
+    // /**
+    //  * @Route("/{id}/{parent2}/Niveau", name="families_niveau", methods={"GET"})
+    //  */
+    // public function niveau2(FamiliesRepository $familiesRepository, $id, $parent2): Response
+    // {
+    //     // dd($familiesRepository->findAll());
+
+    //     return $this->render('families/index.html.twig', [
+    //         'families' => $familiesRepository->findby(array('parent' => $id)), 'familis' => $familiesRepository->findby(array('id' => $id, 'parent2'))
+    //     ]);
+    // }
 
     /**
      * @Route("/new/{niveau}/{parent}", name="families_new", methods={"GET","POST"})
