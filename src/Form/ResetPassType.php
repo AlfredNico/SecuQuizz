@@ -13,10 +13,16 @@ class ResetPassType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', EmailType::class)
+            ->add('email', EmailType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Adresse Mail'
+                ],
+                'required' => true,
+            ])
             ->add('submit', SubmitType::class, [
                 'label'=>'Envoyer',
-                'attr'=>['class'=>'btn btn-primary'
+                'attr'=>['class'=>'btn btn-success'
                 ]
             ])
         ;

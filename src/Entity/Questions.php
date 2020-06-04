@@ -25,7 +25,7 @@ class Questions
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $attached;
 
@@ -45,7 +45,7 @@ class Questions
     private $etat;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $motif;
 

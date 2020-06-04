@@ -1,20 +1,53 @@
 {% extends "baseLogin.html.twig" %}
 
-{% block title %}Register{% endblock %}
-
 {% block body %}
     
-    <div class="container">
-        <h1 class="h3 mb-3 font-weight-normal text-center">S'inscrire</h1>
+<div id="loginbox"> 
+     {# On affiche tous nos message dans nos controller #}
+    {% for message in app.flashes('message') %}
+        <div class="alert alert-success" role="alert"> {{ message }} </div>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+        <div class="alert alert-danger" role="alert"> {{ message }} </div>
+    {% endfor %}
+    {% for message in app.flashes('warning') %}
+        <div class="alert alert-warning" role="alert"> {{ message }} </div>
+    {% endfor %}
 
+    {# <form class="form-vertical"> #}
+        <div class="control-group normal_text"> <h3><img src="{{asset('build/images/Untitled-2.png')}}"></h3></div>
+        
         {{ form_start(registrationForm) }}
-            {{ form_row(registrationForm.email) }}
-            {{ form_row(registrationForm.plainPassword) }}
-            {{ form_row(registrationForm.agreeTerms) }}
-
-            <a class="" href="{{ path('app_login') }}">Se connecter</a>
-            <button type="submit" class="btn btn-primary btn-block ">Inscrire</button>
+            <div class="control-group">
+                <div class="controls">
+                    <div class="main_input_box">
+                        {# <span class="add-on bg_lg"><i class="icon-user"> </i></span> #}
+                        {{ form_row(registrationForm.email) }}
+                    </div>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <div class="main_input_box">
+                        {# <span class="add-on bg_ly"><i class="icon-lock"></i></span> #}
+                        {{ form_widget(registrationForm.plainPassword) }}
+                    </div>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    {{ form_widget(registrationForm.agreeTerms) }}
+                </div>
+            </div>
+            <a href="{{ path('app_forgotten_password') }}" class="" id="to-login"> Mot de passe oublié</a>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
+            <div class="form-actions">
+                <span class="pull-left"><a href="{{ path('app_login') }}" class="flip-link btn btn-success" id="to-login">&laquo; Se Connecter</a></span>
+                <span class="pull-right"><button type="submit" class="btn btn-success"> Inscrire </button></span>
+            </div>
         {{ form_end(registrationForm) }}
-    </div>
+    {# </form> #}
+</div>
 
 {% endblock %}
+

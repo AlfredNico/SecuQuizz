@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil | Gestion de Commande{% endblock %}
+
+{% block entete %}
+    <!-- ============================================================== -->
+    <!-- Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+             <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-12 d-flex no-block align-items-center">
+                        <h4 class="page-title">Imorter </h4>
+                        <div class="ml-auto text-right">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{{ path('accueil') }}">Accueil</a></li>
+                                     {% if is_granted('ROLE_ADMIN') %}
+                                        <li class="breadcrumb-item active" aria-current="page"><a href="{{ path('admin_utilisateurs') }}">Utilisateur</a></li>
+                                    {% endif %}
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+{% endblock %}
+
+{% block body %}
+<!-- ============================================================== -->
+<!-- Sales Cards  -->
+<!-- ============================================================== -->
+<div class="row">
+    <div class="container">     
+        <div class="example-wrapper container">
+            {{ form(form) }}
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- Sales Cards  -->
+<!-- ============================================================== -->
+{% endblock %}
+

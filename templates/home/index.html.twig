@@ -1,20 +1,209 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Accueil | Gestion de Commande{% endblock %}
+
+{% block entete %}
+    <!-- ============================================================== -->
+    <!-- Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+             <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-12 d-flex no-block align-items-center">
+                        <h4 class="page-title">Accueil</h4>
+                        <div class="ml-auto text-right">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{{ path('accueil') }}">Accueil</a></li>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <li class="breadcrumb-item active" aria-current="page"><a href="{{ path('admin_utilisateurs') }}">Utilisateur</a></li>
+                                    {% endif %}
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<!-- ============================================================== -->
+<!-- Sales Cards  -->
+<!-- ============================================================== -->
+<div class="row">
+    <!-- Column -->
+    <div class="col-md-6 col-lg-2 col-xlg-3">
+        <a href="{{ path('accueil') }}">
+            <div class="card card-hover">
+                <div class="box bg-cyan text-center">
+                    <h1 class="font-light text-white"><i class="mdi mdi-view-dashboard"></i></h1>
+                    <h6 class="text-white">Accueil</h6>
+                </div>
+            </div>
+        </a> 
+    </div>
+    <!-- Column -->
+    <div class="col-md-6 col-lg-2 col-xlg-3">
+        <a href="{{ path('questions_index') }}">
+            <div class="card card-hover">
+                <div class="box bg-danger text-center">
+                    <h1 class="font-light text-white"><i class="mdi mdi-border-outside"></i></h1>
+                    <h6 class="text-white">Questions</h6>
+                </div>
+            </div>
+        </a>
+    </div>
+    <!-- Column -->
+    <div class="col-md-6 col-lg-2 col-xlg-3">
+        <a href="{{ path('types_index') }}">
+            <div class="card card-hover">
+                <div class="box bg-info text-center">
+                    <h1 class="font-light text-white"><i class="mdi mdi-package-variant-closed"></i></h1>
+                    <h6 class="text-white">Types</h6>
+                </div>
+            </div>
+        </a>
+    </div>
+    <!-- Column -->
+    
+    <!-- Column -->
+    <div class="col-md-6 col-lg-4 col-xlg-3">
+        <a href="{{ path('questions_new') }}">
+            <div class="card card-hover">
+                <div class="box bg-danger text-center">
+                    <h1 class="font-light text-white"><i class="mdi mdi-account-plus"></i></h1>
+                    <h6 class="text-white">Nouveau Question</h6>
+                </div>
+            </div>
+        </a>
+    </div>
+    <!-- Column -->
+    <div class="col-md-6 col-lg-2 col-xlg-3">
+        <a href="{{ path('questions_index') }}">
+            <div class="card card-hover">
+                <div class="box bg-info text-center">
+                    <h1 class="font-light text-white"><i class="mdi mdi-note-text"></i></h1>
+                    <h6 class="text-white">Liste de questions</h6>
+                </div>
+            </div>
+        </a>
+    </div>
+        <!-- Column -->
+    <!-- Column -->
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="col-md-6 col-lg-4 col-xlg-3">
+        <a href="{{ path('admin_utilisateurs') }}">
+            <div class="card card-hover">
+                <div class="box bg-success text-center">
+                    <h1 class="font-light text-white"><i class="mdi mdi-account-multiple"></i></h1>
+                    <h6 class="text-white">Utilisateur</h6>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endif %}
+        <!-- Column -->
+    <div class="col-md-6 col-lg-2 col-xlg-3">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        {% set niveaux = NiveauRepository.findAll() %}
+        {% set min = 0 %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/secu_quiz_2/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/secu_quiz_2/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
+        {% for niveau in niveaux %}
+                {% if min == 0 %}
+                    {% set min = niveau.id %}
+                {% endif %}
+                {% if niveau.id < min %}
+                    {% set min = niveau.id %}
+                {% endif %}
+        {% endfor %}
+        {% if is_granted('ROLE_ADMIN') %}
+            {% if min != 0 %}
+                <a href="{{ path('families_index', {'niveau': min}) }}">
+                    <div class="card card-hover">
+                        <div class="box bg-warning text-center">
+                            <h1 class="font-light text-white"><i class="mdi mdi-collage"></i></h1>
+                            <h6 class="text-white">Articles</h6>
+                        </div>
+                    </div>
+                </a>
+            {% endif %}
+        {% elseif (is_granted('ROLE_EDITOR')) and (app.user.article != "") %}
+            {% if app.user.article.id != null %}
+                <a href="{{ path('families_niveau', {'id': app.user.article.id}) }}">
+                    <div class="card card-hover">
+                        <div class="box bg-warning text-center">
+                            <h1 class="font-light text-white"><i class="mdi mdi-collage"></i></h1>
+                            <h6 class="text-white">Articles</h6>
+                        </div>
+                    </div>
+                </a>
+            {% endif %}
+        {% endif %}
+        
+    </div>
+    <div class="col-md-6 col-lg-2 col-xlg-3">
+        <a href="{{ path('export') }}">
+            <div class="card card-hover">
+                <div class="box bg-cyan text-center">
+                    <h1 class="font-light text-white"><i class="mdi mdi-pencil"></i></h1>
+                    <h6 class="text-white">Exporter questions</h6>
+                </div>
+            </div>
+        </a>
+    </div> 
+    <!-- Column -->
+    <div class="col-md-6 col-lg-2 col-xlg-3">
+        <a href="{{ path('import') }}">
+            <div class="card card-hover">
+                <div class="box bg-success text-center">
+                    <h1 class="font-light text-white"><i class="mdi mdi-calendar-check"></i></h1>
+                    <h6 class="text-white">Importer questions</h6>
+                </div>
+            </div>
+        </a>
+    </div> 
+    <!-- Column -->
+    <div class="col-md-6 col-lg-2 col-xlg-3">
+        <a href="{{ path('about') }}">
+            <div class="card card-hover">
+                <div class="box bg-warning text-center">
+                    <h1 class="font-light text-white"><i class="mdi mdi-alert"></i></h1>
+                    <h6 class="text-white">A propos</h6>
+                </div>
+            </div>
+        </a>
+    </div> 
+    <!-- Column -->
 </div>
+<!-- ============================================================== -->
+<!-- Sales chart -->
+<!-- ============================================================== -->
+{# <div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-md-flex align-items-center">
+                    <div>
+                        <h4 class="card-title">Analyse de la Commande</h4>
+                        <h5 class="card-subtitle">Vue d'ensemble du dernier mois</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- column -->
+                    <div class="col-lg-12">
+                        <div class="flot-chart">
+                            <div class="flot-chart-content" id="flot-line-chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> #}
+<!-- ============================================================== -->
+<!-- Sales chart -->
+<!-- ============================================================== -->
 {% endblock %}
+

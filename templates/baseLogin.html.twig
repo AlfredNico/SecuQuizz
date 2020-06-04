@@ -1,13 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
-        <meta charset="UTF-8">
-        <title>{% block title %} {{ title }} {% endblock %}</title>
-        <link rel="stylesheet" href="{{ asset('build/bootstrap-4.4.1/dist/css/bootstrap.min.css') }}">
+        <title>Gestion de Commande</title><meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link href="{{ asset('build/css/bootstrap.min.css') }}" type="text/css" rel="stylesheet">
+        <link href="{{ asset('build/css/bootstrap-responsive.min.css') }}" type="text/css" rel="stylesheet">
+        <link href="{{ asset('build/css/matrix-login.css') }}" type="text/css" rel="stylesheet">
+        <link href="{{ asset('build/css/font-awesome.css') }}" type="text/css" rel="stylesheet">
+        <link href="{{ asset('http://fonts.googleapis.com/css?family=Open+Sans:400,700,800') }}" type="text/css" rel="stylesheet">
         {% block stylesheets %}{% endblock %}
+
     </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+
+   <body>
+   
+    {% block body %}{% endblock %}
+
+    <script src="{{ asset('build/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('build/js/matrix.login.js') }}"></script>
+    {% block javascripts %} {% endblock %}
+
     </body>
 </html>
