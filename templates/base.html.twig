@@ -92,11 +92,11 @@
                     <input class="form-control mr-sm-2" type="text" placeholder="Search">
                     <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button> #}
                     {% if is_granted('ROLE_ADMIN') %}
-                        Super Administrateur
+                        Super Admin
                     {% elseif is_granted('ROLE_EDITOR') %}
-                        Administrateur
+                        Admin User
                     {% elseif is_granted('ROLE_USER') %}
-                        Utilisateur
+                        User
                     {% endif %}
                     <a class="nav-link" href="{{ path('app_logout') }}">
                         Déconnecter

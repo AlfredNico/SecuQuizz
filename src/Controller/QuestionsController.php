@@ -33,9 +33,9 @@ class QuestionsController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="questions_new", methods={"GET","POST"})
+     * @Route("/{id}/new", name="questions_new", methods={"GET","POST"})
      */
-    public function new(Request $request, SluggerInterface $slugger): Response
+    public function new(Request $request, SluggerInterface $slugger, $id): Response
     {
         // $question = new Questions();
         // $form = $this->createForm(QuestionsType::class, $question);
