@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil | Gestion de Commande{% endblock %}
+
+{% block entete %}
+    <!-- ============================================================== -->
+    <!-- Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+             <div class="page-breadcrumb">
+                <div class="row">
+                    <div class="col-12 d-flex no-block align-items-center">
+                        <h4 class="page-title">Lire un fichier importer</h4>
+                        <div class="ml-auto text-right">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{{ path('accueil') }}">Accueil</a></li>
+                                     {% if is_granted('ROLE_ADMIN') %}
+                                        <li class="breadcrumb-item active" aria-current="page"><a href="{{ path('admin_utilisateurs') }}">Utilisateur</a></li>
+                                    {% endif %}
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+{% endblock %}
+
+{% block body %}
+<!-- ============================================================== -->
+<!-- Sales Cards  -->
+<!-- ============================================================== -->
+<div class="row">
+    <div class="container">     
+        <div class="example-wrapper container">
+            <div id="container">
+                {% for worksheetTitle, worksheetData in data %}
+                    <h2>{{ worksheetTitle }}</h2>
+                    <table>
+                        <thead>
+                            {% for columnName in worksheetData.columnNames %}
+                                <th class="heading"><b>{{ columnName }}</b></th>
+                            {% endfor %}
+                        </thead>
+                        <tbody>
+                            {% for columnValue in worksheetData.columnValues %}
+                                <tr>
+                                    {% for value in columnValue %}
+                                        <td class="heading">{{ value }}</td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- Sales Cards  -->
+<!-- ============================================================== -->
+{% endblock %}
+
