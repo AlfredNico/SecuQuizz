@@ -44,7 +44,7 @@
             </div>
         </a> 
     </div>
-    <!-- Column -->
+    {# <!-- Column -->
     <div class="col-md-6 col-lg-2 col-xlg-3">
         <a href="{{ path('questions_index') }}">
             <div class="card card-hover">
@@ -55,7 +55,7 @@
             </div>
         </a>
     </div>
-    <!-- Column -->
+    <!-- Column --> #}
     <div class="col-md-6 col-lg-2 col-xlg-3">
         <a href="{{ path('types_index') }}">
             <div class="card card-hover">
@@ -69,7 +69,7 @@
     <!-- Column -->
     
     <!-- Column -->
-    <div class="col-md-6 col-lg-4 col-xlg-3">
+    {# <div class="col-md-6 col-lg-4 col-xlg-3">
         <a href="{{ path('questions_index') }}">
             <div class="card card-hover">
                 <div class="box bg-danger text-center">
@@ -79,7 +79,7 @@
             </div>
         </a>
     </div>
-    <!-- Column -->
+    <!-- Column --> #}
     <div class="col-md-6 col-lg-2 col-xlg-3">
         <a href="{{ path('questions_index') }}">
             <div class="card card-hover">
@@ -90,60 +90,7 @@
             </div>
         </a>
     </div>
-        <!-- Column -->
-    <!-- Column -->
-    {% if is_granted('ROLE_ADMIN') %}
-        <div class="col-md-6 col-lg-4 col-xlg-3">
-        <a href="{{ path('admin_utilisateurs') }}">
-            <div class="card card-hover">
-                <div class="box bg-success text-center">
-                    <h1 class="font-light text-white"><i class="mdi mdi-account-multiple"></i></h1>
-                    <h6 class="text-white">Utilisateur</h6>
-                </div>
-            </div>
-        </a>
-    </div>
-    {% endif %}
-        <!-- Column -->
-    <div class="col-md-6 col-lg-2 col-xlg-3">
-
-        {% set niveaux = NiveauRepository.findAll() %}
-        {% set min = 0 %}
-
-        {% for niveau in niveaux %}
-                {% if min == 0 %}
-                    {% set min = niveau.id %}
-                {% endif %}
-                {% if niveau.id < min %}
-                    {% set min = niveau.id %}
-                {% endif %}
-        {% endfor %}
-        {% if is_granted('ROLE_ADMIN') %}
-            {% if min != 0 %}
-                <a href="{{ path('families_index', {'niveau': min}) }}">
-                    <div class="card card-hover">
-                        <div class="box bg-warning text-center">
-                            <h1 class="font-light text-white"><i class="mdi mdi-collage"></i></h1>
-                            <h6 class="text-white">Articles</h6>
-                        </div>
-                    </div>
-                </a>
-            {% endif %}
-        {% elseif (is_granted('ROLE_EDITOR')) and (app.user.article != "") %}
-            {% if app.user.article.id != null %}
-                <a href="{{ path('families_niveau', {'id': app.user.article.id}) }}">
-                    <div class="card card-hover">
-                        <div class="box bg-warning text-center">
-                            <h1 class="font-light text-white"><i class="mdi mdi-collage"></i></h1>
-                            <h6 class="text-white">Articles</h6>
-                        </div>
-                    </div>
-                </a>
-            {% endif %}
-        {% endif %}
-        
-    </div>
-    <div class="col-md-6 col-lg-2 col-xlg-3">
+        <div class="col-md-6 col-lg-2 col-xlg-3">
         <a href="{{ path('export') }}">
             <div class="card card-hover">
                 <div class="box bg-cyan text-center">
@@ -176,6 +123,59 @@
         </a>
     </div> 
     <!-- Column -->
+    <div class="col-md-6 col-lg-2 col-xlg-3">
+        {% set niveaux = NiveauRepository.findAll() %}
+        {% set min = 0 %}
+
+        {% for niveau in niveaux %}
+                {% if min == 0 %}
+                    {% set min = niveau.id %}
+                {% endif %}
+                {% if niveau.id < min %}
+                    {% set min = niveau.id %}
+                {% endif %}
+        {% endfor %}
+        {% if is_granted('ROLE_ADMIN') %}
+        
+            {% if min != 0 %}
+                <a href="{{ path('families_index', {'niveau': min}) }}">
+                    <div class="card card-hover">
+                        <div class="box bg-warning text-center">
+                            <h1 class="font-light text-white"><i class="mdi mdi-collage"></i></h1>
+                            <h6 class="text-white">Articles</h6>
+                        </div>
+                    </div>
+                </a>
+            {% endif %}
+        {% elseif (is_granted('ROLE_EDITOR')) and (app.user.article != "") %}
+            {% if app.user.article.id != null %}
+                <a href="{{ path('families_niveau', {'id': app.user.article.id}) }}">
+                    <div class="card card-hover">
+                        <div class="box bg-warning text-center">
+                            <h1 class="font-light text-white"><i class="mdi mdi-collage"></i></h1>
+                            <h6 class="text-white">Articles</h6>
+                        </div>
+                    </div>
+                </a>
+            {% endif %}
+    
+        {% endif %}
+    </div>    
+        <!-- Column -->
+    <!-- Column -->
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="col-md-6 col-lg-4 col-xlg-3">
+        <a href="{{ path('admin_utilisateurs') }}">
+            <div class="card card-hover">
+                <div class="box bg-success text-center">
+                    <h1 class="font-light text-white"><i class="mdi mdi-account-multiple"></i></h1>
+                    <h6 class="text-white">Utilisateur</h6>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endif %}
+        <!-- Column -->
 </div>
 <!-- ============================================================== -->
 <!-- Sales chart -->

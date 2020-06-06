@@ -313,4 +313,12 @@ class ExportImportController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/export2/Export2", name="export2")
+     */
+    public function export(){
+
+        return $this->render("export_import/testImport.html.twig");
+    }
 }
