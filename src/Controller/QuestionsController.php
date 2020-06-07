@@ -43,6 +43,24 @@ class QuestionsController extends AbstractController
     }
 
     /**
+     * @Route("/{article}/{min}", name="questions_index_min", methods={"GET"})
+     */
+    public function index1(QuestionsRepository $questionsRepository, $article, $min): Response
+    {
+
+        $user = $this->getUser()->getId();
+        if ($this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN') || $this->container->get('security.authorization_checker')->isGranted('ROLE_EDITOR')) {
+            return $this->render('questions/index.html.twig', [
+                'questions' => $questionsRepository->findById($article), 'article' => $article, 'niveau' => $min
+            ]);
+        } else {
+            return $this->render('questions/index.html.twig', [
+                'questions' => $questionsRepository->findByIdUser($article, $user), 'article' => $article, 'niveau' => $min
+            ]);
+        }
+    }
+
+    /**
      * @Route("/{id}/new/{article}/{parent}", name="questions_new", methods={"GET","POST"})
      */
     public function new(Request $request, SluggerInterface $slugger, $id, $article, $parent): Response

@@ -9,6 +9,7 @@
         <h1>Choisir Article</h1>
     {% endif %}
     {% set ls = false %}
+    {% set Niveau1 = null %}
     {% set NextNiveau = null %}
     {% set NiveauActuelle = null %}
     {% set test = false %}
@@ -79,8 +80,11 @@
             {% set famili = famil %}
         {% endfor %}
 
+        {% set i = 0 %}
         {% set niveaux = NiveauRepository.findAll() %}
         {% for niveauPrec in niveaux %}
+            {% set i = i + 1 %}
+            {% set Niveau1 = niveauPrec %}
             {% if niveauPrec.id == famili.niveau.id %}
                 {% set ls = true %}
             {% elseif ls == true %}
@@ -92,11 +96,19 @@
                 {% set test = false %}
             {% endif %}
         {% endfor %}
-        <p>Article niveau
-            {{ NiveauActuelle.id }}
-            :
-            {{ NiveauActuelle.title }}
-        </p>
+        {% if NiveauActuelle != null %}
+            <p>Article niveau
+                {{ NiveauActuelle.id }}
+                :
+                {{ NiveauActuelle.title }}
+            </p>
+        {% else %}
+            <p>Article niveau
+                {{ Niveau1.id }}
+                :
+                {{ Niveau1.title }}
+            </p>
+        {% endif %}
         <p>Parent :
             {{ famili.title }}
         </p>
@@ -129,18 +141,25 @@
                         {# {% if family.parent != null %} #}
                         {% if idNiveau == tab[tablength - 1] %}
                             {% if family.etat == false %}
-                                <a
-                                href="{{ path('questions_index', {'id': family.id, 'article': family.id, 'parent': family.parent.id}) }}">{{ family.title }}</a>
+                                {% if family.parent != null %}
+                                    <a
+                                        href="{{ path('questions_index', {'id': family.id, 'article': family.id, 'parent': family.parent.id}) }}">{{ family.title }}</a>
+                                {% else %}
+                                    <a
+                                        href="{{ path('questions_index_min', {'id': family.id, 'article': family.id, 'min': min}) }}">{{ family.title }}</a>
+                                {% endif %}
                             {% else %}
-                                <p>{{ family.title }} (Désactivé)</p>
+                                <p>{{ family.title }}
+                                    (Désactivé)</p>
                             {% endif %}
                             {# {% elseif idNiveau == tab[tablength - 1] or NiveauActuelle.id == tab[tablength - 1] %}
                             <a href="{{ path('questions_new', {'id': family.id}) }}">{{ family.title }}</a> #}
                         {% else  %}
                             {% if family.etat == false %}
-                            <a href="{{ path('families_niveau', {'id': family.id}) }}">{{ family.title }}</a>
+                                <a href="{{ path('families_niveau', {'id': family.id}) }}">{{ family.title }}</a>
                             {% else %}
-                                <p>{{ family.title }} (Désactivé)</p>
+                                <p>{{ family.title }}
+                                    (Désactivé)</p>
                             {% endif %}
                         {% endif %}
                         {# {% endif %}
@@ -158,17 +177,23 @@
                                 <a href="{{ path('families_activation', {'id': family.id, 'min': min}) }}">Activer</a>
                             {% endif %}
 
+                            
                             {% if NiveauActuelle != null %}
-                                {% if is_granted('ROLE_EDITOR') and NiveauActuelle.id == tab[tablength - 1] %}
+                                {% if is_granted('ROLE_EDITOR') and family.title == min %}
+                                    <a
+                                        href="{{ path('competence_index_min', {'article': family.id, 'articleEntity': family, 'min': min}) }}">Compétence</a>
+                                {% elseif is_granted('ROLE_EDITOR') and NiveauActuelle.id == tab[tablength - 1] %}
                                     <a
                                         href="{{ path('competence_index', {'article': family.id, 'articleEntity': family, 'parent': family.parent.id}) }}">Compétence</a>
                                 {% elseif is_granted('ROLE_EDITOR') and idNiveau == tab[tablength - 1] %}
                                     <a
                                         href="{{ path('competence_index', {'article': family.id, 'articleEntity': family, 'parent': family.parent.id}) }}">Compétence</a>
                                 {% endif %}
+                            {% elseif is_granted('ROLE_EDITOR') and idNiveau == tab[tablength - 1] %}
+                            <a href="{{ path('competence_index_min', {'article': family.id, 'articleEntity': family, 'min': min}) }}">Compétence</a>
                             {% endif %}
                             {% if family.parent != null %}
-                                {% if is_granted('ROLE_ADMIN') and family.parent.users == null %}
+                                {% if is_granted('ROLE_ADMIN')and family.parent.users == null %}
                                     <a
                                         href="{{ path('families_affectation_user', {'id': family.id, 'min': min}) }}">Affecter Admin User</a>
                                 {% endif %}
@@ -188,14 +213,19 @@
             {% endfor %}
         </tbody>
     </table>
-    {% if is_granted('ROLE_ADMIN') %}
-        {% if familis == null %}
-            <a href="{{ path('families_new_niveau1', {'niveau': min}) }}">Create new</a>
-        {% else %}
+
+    {% if (is_granted('ROLE_EDITOR')and app.user.article != null) 
+        or is_granted('ROLE_ADMIN') %}
             {% set famili = null %}
-            {% for famil in familis %}
-                {% set famili = famil %}
-            {% endfor %}
+        {% for famil in familis %}
+            {% set famili = famil %}
+        {% endfor %}
+        {% if familis == null %}
+            <a href="{{ path('families_new_niveau1', {'niveau': min}) }}">Ajouter</a>
+        {# {% elseif famili.parent == null %}
+            <a href="{{ path('families_new_niveau1', {'niveau': min}) }}">Ajouter</a> #}
+        {% else %}
+
             {% set ls = false %}
             {% set NextNiveau = null %}
             {% set NiveauActuelle = null %}
@@ -213,12 +243,13 @@
                     {% set test = false %}
                 {% endif %}
             {% endfor %}
-            {# {% if NextNiveau == null %}
-            <a href="{{ path('questions_index') }}">Creer une compétence</a>
-        {% else %} #}
+            {# {% if i <= 1 %} #}
             <a
                 href="{{ path('families_new', {'parent': famili.id,'niveau': NiveauActuelle.id}) }}">Ajouter</a>
-            {# {% endif %} #}
+            {# {% else %}
+            <a
+                href="{{ path('families_new', {'parent': famili.id,'niveau': NiveauActuelle.id}) }}">Ajouter</a>
+            {% endif %} #}
         {% endif %}
         {# {% elseif is_granted('ROLE_EDITOR') and NiveauActuelle.id == tab[tablength - 1] %}
     <a

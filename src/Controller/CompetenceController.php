@@ -28,6 +28,16 @@ class CompetenceController extends AbstractController
     }
 
     /**
+     * @Route("/{article}/{min}", name="competence_index_min", methods={"GET"})
+     */
+    public function index_min(CompetenceRepository $competenceRepository, $article, $min): Response
+    {
+        return $this->render('competence/index.html.twig', [
+            'competences' => $competenceRepository->findByArticle($article), 'article' => $article, 'min' => $min
+        ]);
+    }
+
+    /**
      * @Route("/new/{article}/{parent}", name="competence_new", methods={"GET","POST"})
      */
     public function new(Request $request, $article, $parent): Response

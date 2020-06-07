@@ -20,7 +20,7 @@ class FamiliesAffectationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('users', EntityType::class, array(
+            ->add('user', EntityType::class, array(
                 'class' => EntityUsers::class,
                 'choice_label' => 'email',
                 'multiple' => false,

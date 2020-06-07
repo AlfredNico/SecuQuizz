@@ -13,7 +13,7 @@
 {% block body %}
     <h1>Ajout d'une nouvelle Question</h1>
 
-{# {{ form_start(form) }}
+    {# {{ form_start(form) }}
     {{ form_row(form.numc) }}
     {{ form_row(form.dateComm) }}
     {{ form_row(form.client) }}
@@ -31,7 +31,8 @@
     <form method="post" enctype="multipart/form-data">
 
         <div class="row">
-            <div class="col-12" style="margin-bottom: 20px;">Choisir compétence(s) : {{ form_widget(form.competences) }}</div>
+            <div class="col-12" style="margin-bottom: 20px;">Choisir compétence(s) :
+                {{ form_widget(form.competences) }}</div>
         </div>
 
         <div class="row">
@@ -42,59 +43,82 @@
                         <hr/>
                         <div class="row">
                             {# <div class="col-12" style="margin-bottom: 20px;">N°Commande : {{ numc }}</div> #}
-                            <div class="col-12" style="margin-bottom: 20px;">Intitulé : {{ form_widget(form.title) }}</div>
-                            <div class="col-12" style="margin-bottom: 20px;">Pièce jointe : {{ form_widget(form.pj) }}</div>
-                            <div class="col-12" style="margin-bottom: 20px;">texteComplementaire : {{ form_widget(form.texteComplementaire) }}</div>
-                            <div class="col-12" style="margin-bottom: 20px;">autreTexte : {{ form_widget(form.autreTexte) }}</div>
+                            <div class="col-12" style="margin-bottom: 20px;">Intitulé :
+                                {{ form_widget(form.title) }}</div>
+                            <div class="col-12" style="margin-bottom: 20px;">Pièce jointe :
+                                {{ form_widget(form.pj) }}</div>
+                            <div class="col-12" style="margin-bottom: 20px;">texteComplementaire :
+                                {{ form_widget(form.texteComplementaire) }}</div>
+                            <div class="col-12" style="margin-bottom: 20px;">autreTexte :
+                                {{ form_widget(form.autreTexte) }}</div>
                             {# <div class="col-12" style="margin-bottom: 20px;">motif : {{ form_widget(form.motif) }}</div> #}
-                            <div class="col-12" style="margin-bottom: 20px;">types : {{ form_widget(form.type) }}</div>
+                            <div class="col-12" style="margin-bottom: 20px;">types :
+                                {{ form_widget(form.type) }}</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-                    <table class="table">
-                        <th class="col-md-1">Intitulé</th>
-                        <th class="col-md-1">Action</th>
-                        <tr>
-                            <td class="col-md-1">{{ form_widget(f.title) }}</td>
-                            <td class="col-md-1">{{ form_widget(f.isAnswer) }}</td>
-                            <td class="col-md-1">
-                                <input type="submit" value="Add" name="bt" class="btn btn-warning"/>
-                                <i class="glyphicon glyphicon-save"></i>
-                            </td>
-                        </tr>
-                    </table>
-                    <table class="table table-condensed">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>Ligne</th>
-                                <th class="col-md-2">Intitulé</th>
-                                <th class="col-md-1">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for t in lcomm %}
-                            <tr>
-                                <td class="col-md-2">{{ t.lig }}</td>
-                                <td class="col-md-1">{{ t.title }}</td>
-                                <td class="col-md-1">
-                                    <a href="{{ path('supprimer', {'id': t.lig}) }}" 
-                                    class="btn btn-danger">
-                                    <i class="glyphicon glyphicon-apple"></i>
-                                    Supprimer
-                                    </a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-            <td>
-                <input type="submit" value="Valider" name="bt" class="btn btn-success"/>
-            </td>
+        <table class="table">
+            <th class="col-md-1">Intitulé</th>
+            <th class="col-md-1">Action</th>
+            <tr>
+                <td class="col-md-1">{{ form_widget(f.title) }}</td>
+                <td class="col-md-1">{{ form_widget(f.isAnswer) }}</td>
+                {{ form_rest(form) }}
+                <td class="col-md-1">
+                    <input type="submit" value="Add" name="bt" class="btn btn-warning addbtn"/>
+                    <i class="glyphicon glyphicon-save"></i>
+                </td>
+            </tr>
+        </table>
+        <table class="table table-condensed">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Ligne</th>
+                    <th class="col-md-2">Intitulé</th>
+                    <th class="col-md-1">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in lcomm %}
+                    <tr>
+                        <td class="col-md-2">{{ t.lig }}</td>
+                        <td class="col-md-1">{{ t.title }}</td>
+                        <td class="col-md-1">
+                            <a href="{{ path('supprimer', {'id': t.lig}) }}" class="btn btn-danger">
+                                <i class="glyphicon glyphicon-apple"></i>
+                                Supprimer
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <td>
+            <input type="submit" value="Valider" name="bt" class="btn btn-success"/>
+        </td>
     </form>
 
-    <button class="btn" style="position: relative; margin-left: 75px; margin-top: -58px; padding: 7px 15px;"><a href="{{ path('questions_index', {'id': article, 'article': article, 'parent': parent}) }}" style="color: #343a40;">Retour</a></button>
+    <button
+        class="btn"
+        style="position: relative; margin-left: 75px; margin-top: -58px; padding: 7px 15px;">
+        <a
+            href="{{ path('questions_index', {'id': article, 'article': article, 'parent': parent}) }}"
+            style="color: #343a40;">Retour</a>
+    </button>
 {% endblock %}
-
+{% block javascripts %}
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    {# <script>
+        function onClickAddBtn(event){
+            event.preventDefault();
+        }
+        document
+            .querySelectorAll('input.addbnt')
+            .forEach(function (link) {
+                link.addEventListener('click', onClickAddBtn);
+            })
+    </script> #}
+{% endblock %}

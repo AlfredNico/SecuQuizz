@@ -57,6 +57,11 @@ class Families
     private $questions;
 
     /**
+     * @ORM\OneToOne(targetEntity=Users::class, mappedBy="article", cascade={"persist", "remove"})
+     */
+    private $user;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $etat;
@@ -209,6 +214,24 @@ class Families
             if ($question->getArticle() === $this) {
                 $question->setArticle(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getUser(): ?Users
+    {
+        return $this->user;
+    }
+
+    public function setUser(?Users $user): self
+    {
+        $this->user = $user;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newArticle = null === $user ? null : $this;
+        if ($user->getArticle() !== $newArticle) {
+            $user->setArticle($newArticle);
         }
 
         return $this;
