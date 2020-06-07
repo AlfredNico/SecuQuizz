@@ -61,9 +61,9 @@ class QuestionsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/new/{article}/{parent}", name="questions_new", methods={"GET","POST"})
+     * @Route("/new/{article}/{parent}", name="questions_new", methods={"GET","POST"})
      */
-    public function new(Request $request, SluggerInterface $slugger, $id, $article, $parent): Response
+    public function new(Request $request, SluggerInterface $slugger, $article, $parent): Response
     {
         // $question = new Questions();
         // $form = $this->createForm(QuestionsType::class, $question);
@@ -273,9 +273,9 @@ class QuestionsController extends AbstractController
     }
 
     /**
-     * @Route("/supprimer/{id}", name="supprimer")
+     * @Route("/supprimer/{id}/{article}/{parent}", name="supprimer")
      */
-    public function supprimer($id, Request $request, $article, $parent)
+    public function supprimer(Request $request, $id, $article, $parent)
     {
         $session = $request->getSession();
         $Tabcomm = $session->get('question', []);
