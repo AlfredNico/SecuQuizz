@@ -28,7 +28,7 @@
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }} #}
 
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" class="formulaire">
 
         <div class="row">
             <div class="col-12" style="margin-bottom: 20px;">Choisir compétence(s) :
@@ -37,7 +37,7 @@
 
         <div class="row">
             <div class="col-6">
-                <div class="card alert alert-dark">
+                {# <div class="card alert alert-dark"> #}
                     <div class="card-body">
                         <h4 class="card-title">Question</h4>
                         <hr/>
@@ -54,9 +54,10 @@
                             {# <div class="col-12" style="margin-bottom: 20px;">motif : {{ form_widget(form.motif) }}</div> #}
                             <div class="col-12" style="margin-bottom: 20px;">types :
                                 {{ form_widget(form.type) }}</div>
+                                {# {{ form_rest(form) }} #}
                         </div>
                     </div>
-                </div>
+                {# </div> #}
             </div>
         </div>
 
@@ -66,7 +67,6 @@
             <tr>
                 <td class="col-md-1">{{ form_widget(f.title) }}</td>
                 <td class="col-md-1">{{ form_widget(f.isAnswer) }}</td>
-                {{ form_rest(form) }}
                 <td class="col-md-1">
                     <input type="submit" value="Add" name="bt" class="btn btn-warning addbtn"/>
                     <i class="glyphicon glyphicon-save"></i>
@@ -87,7 +87,7 @@
                         <td class="col-md-2">{{ t.lig }}</td>
                         <td class="col-md-1">{{ t.title }}</td>
                         <td class="col-md-1">
-                            <a href="{{ path('supprimer', {'id': t.lig}) }}" class="btn btn-danger">
+                            <a href="{{ path('supprimer', {'id': t.lig, 'article': article, 'parent': parent}) }}" class="btn btn-danger">
                                 <i class="glyphicon glyphicon-apple"></i>
                                 Supprimer
                             </a>
@@ -110,13 +110,18 @@
     </button>
 {% endblock %}
 {% block javascripts %}
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    {# <script>
+    {# <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
         function onClickAddBtn(event){
             event.preventDefault();
+
+            const action = this.input;
+            axios.get(action).then(function(reponse){
+                console.log(reponse);
+            })
         }
         document
-            .querySelectorAll('input.addbnt')
+            .querySelectorAll('form.formulaire')
             .forEach(function (link) {
                 link.addEventListener('click', onClickAddBtn);
             })
