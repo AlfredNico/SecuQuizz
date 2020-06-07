@@ -151,24 +151,32 @@
                                         <i class="mdi mdi-television-guide"></i><span class="hide-menu">Articles</span>
                                     </a>
                                 {% endif %}
-                            {% elseif (is_granted('ROLE_EDITOR')) and (app.user.article != "") %}
+                            {% elseif (is_granted('ROLE_EDITOR')) and (app.user.article != null) %}
                                 {% if app.user.article.id != null %}
                                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('families_niveau', {'id': app.user.article.id}) }}">
                                         <i class="mdi mdi-television-guide"></i><span class="hide-menu">Articles</span>
                                     </a>
                                 {% endif %}
+                            {% else %}
+                                {% if min != 0 %}
+                                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('families_index', {'niveau': min}) }}">
+                                        <i class="mdi mdi-package-variant-closed"></i><span class="hide-menu">Envoyer la question</span>
+                                    </a>
+                                {% endif %}
                             {% endif %}
                         </li>
+                        {% if is_granted('ROLE_ADMIN') %}
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('types_index') }}">
                                 <i class="mdi mdi-calendar-multiple-check"></i><span class="hide-menu">Types</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
+                        {% endif %}
+                        {# <li class="sidebar-item">
                                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('questions_index') }}">
                                         <i class="mdi mdi-help"></i><span class="hide-menu">Questions</span>
                                     </a>
-                        </li>
+                        </li> #}
                         {% if is_granted('ROLE_USER') %}
                             <li class="sidebar-item">
                                 <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('profil_index') }}">

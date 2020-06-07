@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Questions{% endblock %}
+{% block title %}Details Question{% endblock %}
 
 {% block body %}
-    <h1>Questions</h1>
+    <h1>Détails de la Question</h1>
 
     <table class="table">
         <tbody>
@@ -17,7 +17,9 @@
             </tr>
             <tr>
                 <th>Pièce jointe</th>
-                <td><a href="{{ asset('uploads/pj/' ~ question.attached) }}">Voir pj (image ou video)</a></td>
+                <td>
+                    <a href="{{ asset('uploads/pj/' ~ question.attached) }}">Voir pj (image ou video)</a>
+                </td>
             </tr>
             <tr>
                 <th>TexteComplementaire</th>
@@ -38,9 +40,11 @@
         </tbody>
     </table>
 
-    <a href="{{ path('questions_index') }}">back to list</a>
+    <a href="{{ path('questions_index', {'article': article, 'parent': parent}) }}">back to list</a>
+    {% if is_granted('ROLE_EDITOR')or is_granted('ROLE_ADMIN') %}
+        <a
+            href="{{ path('questions_edit', {'id': question.id, 'article': article, 'parent': parent}) }}">edit</a>
 
-    <a href="{{ path('questions_edit', {'id': question.id}) }}">edit</a>
-
-    {{ include('questions/_delete_form.html.twig') }}
+        {{ include('questions/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}
