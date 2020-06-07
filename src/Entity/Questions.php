@@ -71,10 +71,22 @@ class Questions
      */
     private $type;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Competence::class, inversedBy="questions")
+     */
+    private $competences;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Families::class, inversedBy="questions")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $article;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
         $this->types = new ArrayCollection();
+        $this->competences = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -217,6 +229,44 @@ class Questions
     public function setType(?Types $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Competence[]
+     */
+    public function getCompetences(): Collection
+    {
+        return $this->competences;
+    }
+
+    public function addCompetence(Competence $competence): self
+    {
+        if (!$this->competences->contains($competence)) {
+            $this->competences[] = $competence;
+        }
+
+        return $this;
+    }
+
+    public function removeCompetence(Competence $competence): self
+    {
+        if ($this->competences->contains($competence)) {
+            $this->competences->removeElement($competence);
+        }
+
+        return $this;
+    }
+
+    public function getArticle(): ?Families
+    {
+        return $this->article;
+    }
+
+    public function setArticle(?Families $article): self
+    {
+        $this->article = $article;
 
         return $this;
     }

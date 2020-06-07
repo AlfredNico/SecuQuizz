@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Families{% endblock %}
+{% block title %}Activation Article{% endblock %}
 
 {% block body %}
-    <h1>Edit Families</h1>
+    <h1>Activation Article</h1>
 
-    {{ include('families/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('families/_form.html.twig', {'button_label': 'Valider'}) }}
     {% set niveaux = NiveauRepository.findAll() %}
     {% set min = 0 %}
 

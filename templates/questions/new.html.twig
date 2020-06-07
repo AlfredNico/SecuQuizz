@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Questions{% endblock %}
+{% block title %}Nouvelle Question{% endblock %}
 
 {# {% block body %}
     <h1>Create new Questions</h1>
@@ -30,6 +30,9 @@
 
     <form method="post" enctype="multipart/form-data">
 
+        <div class="row">
+            <div class="col-12" style="margin-bottom: 20px;">Choisir compétence(s) : {{ form_widget(form.competences) }}</div>
+        </div>
 
         <div class="row">
             <div class="col-6">
@@ -58,7 +61,7 @@
                             <td class="col-md-1">{{ form_widget(f.title) }}</td>
                             <td class="col-md-1">{{ form_widget(f.isAnswer) }}</td>
                             <td class="col-md-1">
-                                <input type="submit" value="Add" name="bt" class="btn btn-xarning"/>
+                                <input type="submit" value="Add" name="bt" class="btn btn-warning"/>
                                 <i class="glyphicon glyphicon-save"></i>
                             </td>
                         </tr>
@@ -92,6 +95,6 @@
             </td>
     </form>
 
-    <button class="btn" style="position: relative; margin-left: 75px; margin-top: -58px; padding: 7px 15px;"><a href="{{ path('questions_index') }}" style="color: #343a40;">Retour</a></button>
+    <button class="btn" style="position: relative; margin-left: 75px; margin-top: -58px; padding: 7px 15px;"><a href="{{ path('questions_index', {'id': article, 'article': article, 'parent': parent}) }}" style="color: #343a40;">Retour</a></button>
 {% endblock %}
 

@@ -46,10 +46,26 @@ class Families
      */
     private $niveau;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Competence::class, mappedBy="article", orphanRemoval=true)
+     */
+    private $competences;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Questions::class, mappedBy="article", orphanRemoval=true)
+     */
+    private $questions;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $etat;
+
     public function __construct()
     {
         $this->competences = new ArrayCollection();
         $this->enfant = new ArrayCollection();
+        $this->questions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -132,6 +148,80 @@ class Families
     public function setNiveau(?Niveau $niveau): self
     {
         $this->niveau = $niveau;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Competence[]
+     */
+    public function getCompetences(): Collection
+    {
+        return $this->competences;
+    }
+
+    public function addCompetence(Competence $competence): self
+    {
+        if (!$this->competences->contains($competence)) {
+            $this->competences[] = $competence;
+            $competence->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompetence(Competence $competence): self
+    {
+        if ($this->competences->contains($competence)) {
+            $this->competences->removeElement($competence);
+            // set the owning side to null (unless already changed)
+            if ($competence->getArticle() === $this) {
+                $competence->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Questions[]
+     */
+    public function getQuestions(): Collection
+    {
+        return $this->questions;
+    }
+
+    public function addQuestion(Questions $question): self
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions[] = $question;
+            $question->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Questions $question): self
+    {
+        if ($this->questions->contains($question)) {
+            $this->questions->removeElement($question);
+            // set the owning side to null (unless already changed)
+            if ($question->getArticle() === $this) {
+                $question->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getEtat(): ?bool
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(bool $etat): self
+    {
+        $this->etat = $etat;
 
         return $this;
     }

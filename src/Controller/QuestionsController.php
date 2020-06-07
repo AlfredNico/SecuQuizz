@@ -4,18 +4,20 @@ namespace App\Controller;
 
 use App\Entity\Answers;
 use App\Entity\Compteur;
+use App\Entity\Families;
 use App\Entity\Questions;
 use App\Form\AnswersType;
 use App\Form\QuestionsType;
+use App\Form\QuestionsValidationType;
 use App\Repository\QuestionsRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\User\User;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
  * @Route("/questions")
@@ -23,19 +25,27 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class QuestionsController extends AbstractController
 {
     /**
-     * @Route("/", name="questions_index", methods={"GET"})
+     * @Route("/{article}/{parent}", name="questions_index", methods={"GET"})
      */
-    public function index(QuestionsRepository $questionsRepository): Response
+    public function index(QuestionsRepository $questionsRepository, $article, $parent): Response
     {
-        return $this->render('questions/index.html.twig', [
-            'questions' => $questionsRepository->findAll(),
-        ]);
+
+        $user = $this->getUser()->getId();
+        if ($this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN') || $this->container->get('security.authorization_checker')->isGranted('ROLE_EDITOR')) {
+            return $this->render('questions/index.html.twig', [
+                'questions' => $questionsRepository->findById($article), 'article' => $article, 'parent' => $parent
+            ]);
+        } else {
+            return $this->render('questions/index.html.twig', [
+                'questions' => $questionsRepository->findByIdUser($article, $user), 'article' => $article, 'parent' => $parent
+            ]);
+        }
     }
 
     /**
-     * @Route("/{id}/new", name="questions_new", methods={"GET","POST"})
+     * @Route("/{id}/new/{article}/{parent}", name="questions_new", methods={"GET","POST"})
      */
-    public function new(Request $request, SluggerInterface $slugger, $id): Response
+    public function new(Request $request, SluggerInterface $slugger, $id, $article, $parent): Response
     {
         // $question = new Questions();
         // $form = $this->createForm(QuestionsType::class, $question);
@@ -58,14 +68,17 @@ class QuestionsController extends AbstractController
         $compteur = $repository->find(1);
         $numc = $compteur->getNumcom();
         $question = new Questions();
-        $form = $this->createForm(QuestionsType::class, $question);
+        $form = $this->createForm(
+            QuestionsType::class,
+            $question,
+            ['article' => $article],
+        );
         $form->handleRequest($request);
         $reponse = new Answers();
         $f = $this->createForm(AnswersType::class, $reponse);
         $f->handleRequest($request);
 
         $session = $request->getSession();
-
 
         if (!$session->has('question')) {
             $session->set('question', array());
@@ -82,6 +95,10 @@ class QuestionsController extends AbstractController
                 $question->setNumc($numc);
                 $question->setEtat('En attente de validation');
                 $question->setUsers($this->getUser());
+
+                $repository = $this->getDoctrine()->getRepository(Families::class);
+                $EntiteArticle = $repository->findOneBy(array('id' => $article));
+                $question->setArticle($EntiteArticle);
 
                 $pj = $form->get('pj')->getData();
                 var_dump($pj);
@@ -132,7 +149,7 @@ class QuestionsController extends AbstractController
 
                 $session->clear();
 
-                return $this->redirectToRoute('questions_index');
+                return $this->redirectToRoute('questions_index', array('article' => $article, 'parent' => $parent));
             } else if ($choix == "Add") {
                 $lig = sizeof($Tabcomm) + 1;
                 $reponse->setNumc($numc);
@@ -155,43 +172,78 @@ class QuestionsController extends AbstractController
             'lcomm' => $Tabcomm,
             'form' => $form->createView(),
             'f' => $f->createView(),
+            'article' => $article,
+            'parent' => $parent,
         ]);
     }
 
     /**
-     * @Route("/{id}", name="questions_show", methods={"GET"})
+     * @Route("/{id}/{article}/{parent}", name="questions_show", methods={"GET"})
      */
-    public function show(Questions $question): Response
+    public function show(Questions $question, $article, $parent): Response
     {
         return $this->render('questions/show.html.twig', [
             'question' => $question,
+            'article' => $article,
+            'parent' => $parent,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="questions_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit/{article}/{parent}", name="questions_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Questions $question): Response
+    public function edit(Request $request, Questions $question, $article, $parent): Response
     {
-        $form = $this->createForm(QuestionsType::class, $question);
+        $form = $this->createForm(
+            QuestionsType::class,
+            $question,
+            ['article' => $article],
+        );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('questions_index');
+            return $this->redirectToRoute('questions_index', array('article' => $article, 'parent' => $parent));
         }
 
         return $this->render('questions/edit.html.twig', [
             'question' => $question,
             'form' => $form->createView(),
+            'article' => $article,
+            'parent' => $parent,
         ]);
     }
 
     /**
-     * @Route("/{id}", name="questions_delete", methods={"DELETE"})
+     * @Route("/{id}/validation/{article}/{parent}}", name="questions_validation", methods={"GET","POST"})
      */
-    public function delete(Request $request, Questions $question): Response
+    public function edit2(Request $request, Questions $question, $article, $parent): Response
+    {
+        $form = $this->createForm(
+            QuestionsValidationType::class,
+            $question
+        );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('questions_index', array('article' => $article, 'parent' => $parent));
+        }
+
+        return $this->render('questions/validation.html.twig', [
+            'question' => $question,
+            'form' => $form->createView(),
+            'article' => $article,
+            'parent' => $parent,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/{article}/{parent}", name="questions_delete", methods={"DELETE"})
+     */
+    public function delete(Request $request, Questions $question, $article, $parent): Response
     {
         if ($this->isCsrfTokenValid('delete' . $question->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -199,13 +251,13 @@ class QuestionsController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('questions_index');
+        return $this->redirectToRoute('questions_index', array('article' => $article, 'parent' => $parent));
     }
 
     /**
      * @Route("/supprimer/{id}", name="supprimer")
      */
-    public function supprimer($id, Request $request)
+    public function supprimer($id, Request $request, $article, $parent)
     {
         $session = $request->getSession();
         $Tabcomm = $session->get('question', []);
@@ -213,6 +265,6 @@ class QuestionsController extends AbstractController
             unset($Tabcomm[$id]);
             $session->set('question', $Tabcomm);
         }
-        return $this->redirectToRoute('questions_new');
+        return $this->redirectToRoute('questions_new', array('article' => $article, 'parent' => $parent));
     }
 }
