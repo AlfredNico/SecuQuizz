@@ -1,47 +1,67 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Questions index{% endblock %}
+{% block title %}Questions{% endblock %}
 
 {% block body %}
-    <h1>Questions index</h1>
+    {% if is_granted('ROLE_EDITOR')or is_granted('ROLE_ADMIN') %}
+        <h1>Administrer Question</h1>
+    {% else %}
+        <h1>Liste des Questions</h1>
+    {% endif %}
 
     <table class="table" id="myTable">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Title</th>
+                <th></th>
+                <th>Intitulé</th>
                 <th>Pièce jointe</th>
-                <th>TexteComplementaire</th>
-                <th>AutreTexte</th>
+                <th>Parole de l'expert</th>
+                <th>Référence règlementaire</th>
                 <th>Etat</th>
                 <th>Motif</th>
                 <th>User</th>
+                <th>Compétence(s)</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for question in questions %}
-            <tr>
-                <td>{{ question.id }}</td>
-                <td>{{ question.title }}</td>
-                <td><a href="{{ asset('uploads/pj/' ~ question.attached) }}">Voir pj (image ou video)</a></td>
-                <td>{{ question.texteComplementaire }}</td>
-                <td>{{ question.autreTexte }}</td>
-                <td>{{ question.etat }}</td>
-                <td>{{ question.motif }}</td>
-                <td>{{ question.users.email }}</td>
-                <td>
-                    <a href="{{ path('questions_show', {'id': question.id}) }}">show</a>
-                    <a href="{{ path('questions_edit', {'id': question.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            {% for question in questions %}
+                <tr>
+                    <td>
+                        <li></td>
+                        <td>{{ question.title }}</td>
+                        <td>
+                            {% if question.attached != null %}
+                                <a href="{{ asset('uploads/pj/' ~ question.attached) }}">Voir pj (image ou video)</a>
+                            {% endif %}
+                        </td>
+                        <td>{{ question.texteComplementaire }}</td>
+                        <td>{{ question.autreTexte }}</td>
+                        <td>{{ question.etat }}</td>
+                        <td>{{ question.motif }}</td>
+                        <td>{{ question.users.email }}</td>
 
-    {# <a href="{{ path('questions_new') }}">Create new</a> #}
-{% endblock %}
+                        <td>
+                            {% for competence in question.competences %}
+                                {{ competence.title }},
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <a href="{{ path('questions_show', {'id': question.id, 'article': article, 'parent': parent}) }}">show</a>
+                            {% if is_granted('ROLE_EDITOR')or is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('questions_edit', {'id': question.id, 'article': article, 'parent': parent}) }}">edit</a>
+                                <a href="{{ path('questions_validation', {'id': question.id, 'article': article, 'parent': parent}) }}">Validation</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">no records found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a
+            href="{{ path('questions_new', {'id': article, 'article': article, 'parent': parent}) }}">Create new</a>
+    {% endblock %}

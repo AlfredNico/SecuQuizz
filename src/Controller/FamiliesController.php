@@ -2,17 +2,20 @@
 
 namespace App\Controller;
 
-use App\Entity\Families;
 use App\Entity\Niveau;
+use App\Entity\Families;
 use App\Form\FamiliesType;
-use App\Form\ChoixniveauType;
-use App\Repository\FamiliesRepository;
 use Doctrine\ORM\Mapping\Id;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\ChoixniveauType;
+use App\Form\FamiliesActivationType;
+use App\Form\FamiliesValidationType;
+use App\Form\FamiliesAffectationType;
+use App\Repository\FamiliesRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/families")
@@ -81,6 +84,7 @@ class FamiliesController extends AbstractController
 
             $family->setParent($parent);
             $family->setNiveau($niveau);
+            $family->setEtat(false);
             // for ($i = 1; $i <= 2; $i++) {
             //     $prod = $repository->findOneBy(array('id' => $Tabcomm[$i]->getFamilies()));
             //     $family->setParent($prod);
@@ -125,6 +129,7 @@ class FamiliesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $family->setUsers($user);
             $family->setNiveau($niveau);
+            $family->setEtat(false);
             // for ($i = 1; $i <= 2; $i++) {
             //     $prod = $repository->findOneBy(array('id' => $Tabcomm[$i]->getFamilies()));
             //     $family->setParent($prod);
@@ -138,7 +143,7 @@ class FamiliesController extends AbstractController
             $entityManager->persist($family);
             $entityManager->flush();
             // $article = $family->getParent()->getId();
-            return $this->redirectToRoute('families_niveau', array('id' => '1'));
+            return $this->redirectToRoute('families_index', array('niveau' => '1'));
         }
 
         return $this->render('families/new.html.twig', [
@@ -170,27 +175,58 @@ class FamiliesController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/show", name="families_show", methods={"GET"})
+     * @Route("/{id}/show/{min}", name="families_show", methods={"GET"})
      */
-    public function show(Families $family): Response
+    public function show(Families $family, $min): Response
     {
         return $this->render('families/show.html.twig', [
             'family' => $family,
+            'min' => $min,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="families_edit", methods={"GET","POST"})
+     * @Route("/{id}/activation/{min}", name="families_activation", methods={"GET","POST"})
      */
-    public function edit(Request $request, Families $family): Response
+    public function activation(Request $request, Families $family, $min): Response
+    {
+        $form = $this->createForm(FamiliesActivationType::class, $family);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+            if ($family->getParent() != null) {
+                $article = $family->getParent()->getId();
+                return $this->redirectToRoute('families_niveau', array('id' => $article));
+            } else {
+                // $article = $family->getParent()->getId();
+                return $this->redirectToRoute('families_index', array('niveau' => $min));
+            }
+        }
+
+        return $this->render('families/activation.html.twig', [
+            'family' => $family,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/edit/{min}", name="families_edit", methods={"GET","POST"})
+     */
+    public function edit(Request $request, Families $family, $min): Response
     {
         $form = $this->createForm(FamiliesType::class, $family);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-            $article = $family->getParent()->getId();
-            return $this->redirectToRoute('families_niveau', array('id' => $article));
+            if ($family->getParent() != null) {
+                $article = $family->getParent()->getId();
+                return $this->redirectToRoute('families_niveau', array('id' => $article));
+            } else {
+                // $article = $family->getParent()->getId();
+                return $this->redirectToRoute('families_index', array('niveau' => $min));
+            }
         }
 
         return $this->render('families/edit.html.twig', [
@@ -200,16 +236,49 @@ class FamiliesController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/delete", name="families_delete", methods={"DELETE"})
+     * @Route("/{id}/affectation/{min}", name="families_affectation_user", methods={"GET","POST"})
      */
-    public function delete(Request $request, Families $family): Response
+    public function affectation(Request $request, Families $family, $min): Response
     {
-        $article = $family->getParent()->getId();
+        $form = $this->createForm(FamiliesAffectationType::class, $family);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+            if ($family->getParent() != null) {
+                $article = $family->getParent()->getId();
+                return $this->redirectToRoute('families_niveau', array('id' => $article));
+            } else {
+                // $article = $family->getParent()->getId();
+                return $this->redirectToRoute('families_index', array('niveau' => $min));
+            }
+        }
+
+        return $this->render('families/affectation.html.twig', [
+            'family' => $family,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/delete/{min}", name="families_delete", methods={"DELETE"})
+     */
+    public function delete(Request $request, Families $family, $min): Response
+    {
+
         if ($this->isCsrfTokenValid('delete' . $family->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($family);
             $entityManager->flush();
         }
-        return $this->redirectToRoute('families_niveau', array('id' => $article));
+        // $article = $family->getParent()->getId();
+        // return $this->redirectToRoute('families_niveau', array('id' => $article));
+        if ($family->getParent() != null) {
+            $article = $family->getParent()->getId();
+            return $this->redirectToRoute('families_niveau', array('id' => $article));
+        } else {
+            // $article = $family->getParent()->getId();
+            return $this->redirectToRoute('families_index', array('niveau' => $min));
+        }
     }
 }

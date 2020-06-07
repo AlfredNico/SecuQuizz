@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Affectation Admin User{% endblock %}
+
+{% block body %}
+    <h1>Affectation Admin User</h1>
+
+    {{ include('families/_form.html.twig', {'button_label': 'Valider'}) }}
+
+    {% set niveaux = NiveauRepository.findAll() %}
+    {% set min = 0 %}
+
+    {% for niveau in niveaux %}
+        {% if min == 0 %}
+            {% set min = niveau.id %}
+        {% endif %}
+        {% if niveau.id < min %}
+            {% set min = niveau.id %}
+        {% endif %}
+    {% endfor %}
+
+    {% if family.parent != null %}
+        <a href="{{ path('families_niveau', {'id': family.parent.id}) }}">Retour aux articles</a>
+    {% else %}
+        <a href="{{ path('families_index', {'niveau': min}) }}">Retour aux articles</a>
+    {% endif %}
+
+    {{ include('families/_delete_form.html.twig') }}
+{% endblock %}

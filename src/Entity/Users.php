@@ -71,9 +71,14 @@ class Users implements UserInterface
     private $niveau;
 
     /**
-     * @ORM\OneToOne(targetEntity=Families::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Families::class, inversedBy="user", cascade={"persist", "remove"})
      */
     private $article;
+
+    // /**
+    //  * @ORM\OneToOne(targetEntity=Families::class, cascade={"persist", "remove"})
+    //  */
+    // private $article;
 
 
 
@@ -274,6 +279,19 @@ class Users implements UserInterface
     {
         return $this->niveau;
     }
+
+    // public function getArticle(): ?Families
+    // {
+    //     return $this->article;
+    // }
+
+    // public function setArticle(?Families $article): self
+    // {
+    //     $this->article = $article;
+
+    //     return $this;
+    // }
+
 
     public function getArticle(): ?Families
     {
