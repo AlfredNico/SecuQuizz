@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6f382f98fdc0cf5b69e6902775ef8976",
+    "content-hash": "c2b94e247ccd9e7a8c603e1e4851a413",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -4609,21 +4609,21 @@
         },
         {
             "name": "symfony/mailer",
-            "version": "v5.0.8",
+            "version": "v5.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mailer.git",
-                "reference": "b473af272a4375d832d060b2bc9aac185536443d"
+                "reference": "99689159f32cfa71027cc92e47c0fbb373f0aba0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mailer/zipball/b473af272a4375d832d060b2bc9aac185536443d",
-                "reference": "b473af272a4375d832d060b2bc9aac185536443d",
+                "url": "https://api.github.com/repos/symfony/mailer/zipball/99689159f32cfa71027cc92e47c0fbb373f0aba0",
+                "reference": "99689159f32cfa71027cc92e47c0fbb373f0aba0",
                 "shasum": ""
             },
             "require": {
                 "egulias/email-validator": "^2.1.10",
-                "php": "^7.2.5",
+                "php": ">=7.2.5",
                 "psr/log": "~1.0",
                 "symfony/event-dispatcher": "^4.4|^5.0",
                 "symfony/mime": "^4.4|^5.0",
@@ -4686,24 +4686,24 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-04-28T17:58:55+00:00"
+            "time": "2020-05-30T20:12:43+00:00"
         },
         {
             "name": "symfony/mime",
-            "version": "v5.0.8",
+            "version": "v5.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mime.git",
-                "reference": "5d6c81c39225a750f3f43bee15f03093fb9aaa0b"
+                "reference": "c7fb653965541595e89847fddf60860be42513ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mime/zipball/5d6c81c39225a750f3f43bee15f03093fb9aaa0b",
-                "reference": "5d6c81c39225a750f3f43bee15f03093fb9aaa0b",
+                "url": "https://api.github.com/repos/symfony/mime/zipball/c7fb653965541595e89847fddf60860be42513ba",
+                "reference": "c7fb653965541595e89847fddf60860be42513ba",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2.5",
+                "php": ">=7.2.5",
                 "symfony/polyfill-intl-idn": "^1.10",
                 "symfony/polyfill-mbstring": "^1.0"
             },
@@ -4762,7 +4762,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-04-17T03:29:44+00:00"
+            "time": "2020-05-25T12:33:25+00:00"
         },
         {
             "name": "symfony/monolog-bridge",

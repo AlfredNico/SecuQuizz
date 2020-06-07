@@ -39,7 +39,7 @@
                     {{ form_widget(registrationForm.agreeTerms) }}
                 </div>
             </div>
-            <a href="{{ path('app_forgotten_password') }}" class="" id="to-login"> Mot de passe oublié</a>
+            {# <a href="{{ path('app_forgotten_password') }}" class="" id="to-login"> Mot de passe oublié</a> #}
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
             <div class="form-actions">
                 <span class="pull-left"><a href="{{ path('app_login') }}" class="flip-link btn btn-success" id="to-login">&laquo; Se Connecter</a></span>

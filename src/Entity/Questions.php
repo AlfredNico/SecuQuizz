@@ -232,7 +232,6 @@ class Questions
 
         return $this;
     }
-
     /**
      * @return Collection|Competence[]
      */

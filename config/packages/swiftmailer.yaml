@@ -1,3 +1,19 @@
 swiftmailer:
     url: '%env(MAILER_URL)%'
     spool: { type: 'memory' }
+#     transport: mail
+
+# swiftmailer:
+#     transport: smtp
+#     auth_mode: login
+#     port: 587
+#     host: ssl0.ovh.net
+#     username: E-mail
+#     password: password
+#     spool: { type: 'memory' }
+
+# swiftmailer:
+#     url: '%env(MAILER_URL)%'
+#     spool:
+#         type: file
+#         path: '%kernel.project_dir%/var/spool'

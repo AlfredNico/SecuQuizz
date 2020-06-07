@@ -1,12 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Niveau index{% endblock %}
+{% block title %}Niveau | Secu Quizz{% endblock %}
 
 {% block body %}
-    <h1>Niveau index</h1>
+    <h1>Niveau </h1>
+    <div style="position: absolute; right: 0; margin-top: -50px; margin-right: 20px;">
+        <a href="{{ path('niveau_new') }}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i><span>  créer nouveau</span></a>
+    </div>
 
     <table class="table" id="myTable">
-        <thead>
+        <thead class="font-weight-bold">
             <tr>
                 <th>Id</th>
                 <th>Title</th>
@@ -21,8 +24,8 @@
                 <td>{{ niveau.title }}</td>
                 <td>{{ niveau.ordre }}</td>
                 <td>
-                    <a href="{{ path('niveau_show', {'id': niveau.id}) }}">show</a>
-                    <a href="{{ path('niveau_edit', {'id': niveau.id}) }}">edit</a>
+                    <a href="{{ path('niveau_show', {'id': niveau.id}) }}">détail</a>
+                    {# <a href="{{ path('niveau_edit', {'id': niveau.id}) }}">edit</a> #}
                 </td>
             </tr>
         {% else %}
@@ -32,6 +35,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('niveau_new') }}">Create new</a>
 {% endblock %}

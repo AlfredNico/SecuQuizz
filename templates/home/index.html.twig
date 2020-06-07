@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil | Gestion de Commande{% endblock %}
+{% block title %}Accueil | Secu Quizz{% endblock %}
 
 {% block entete %}
     <!-- ============================================================== -->
@@ -34,7 +34,7 @@
 <!-- ============================================================== -->
 <div class="row">
     <!-- Column -->
-    <div class="col-md-6 col-lg-2 col-xlg-3">
+    {# <div class="col-md-6 col-lg-2 col-xlg-3">
         <a href="{{ path('accueil') }}">
             <div class="card card-hover">
                 <div class="box bg-cyan text-center">
@@ -43,6 +43,7 @@
                 </div>
             </div>
         </a> 
+
     </div>
     <!-- Column -->
     {# <div class="col-md-6 col-lg-2 col-xlg-3">
@@ -65,7 +66,7 @@
                 </div>
             </div>
         </a>
-    </div>
+    </div> #}
     <!-- Column -->
     
     <!-- Column -->
@@ -84,29 +85,46 @@
         <a href="{{ path('questions_index') }}">
             <div class="card card-hover">
                 <div class="box bg-info text-center">
-                    <h1 class="font-light text-white"><i class="mdi mdi-note-text"></i></h1>
+                    <h1 class="font-light text-white"><i class="mdi mdi-help-circle"></i></h1>
                     <h6 class="text-white">Liste de questions</h6>
                 </div>
             </div>
         </a>
-    </div> #}
-        <!-- Column -->
-    <!-- Column -->
-    {% if is_granted('ROLE_ADMIN') %}
-        <div class="col-md-6 col-lg-4 col-xlg-3">
-        <a href="{{ path('admin_utilisateurs') }}">
+    </div>
+        <div class="col-md-6 col-lg-2 col-xlg-3">
+        <a href="{{ path('export') }}">
             <div class="card card-hover">
-                <div class="box bg-success text-center">
-                    <h1 class="font-light text-white"><i class="mdi mdi-account-multiple"></i></h1>
-                    <h6 class="text-white">Utilisateur</h6>
+                <div class="box bg-cyan text-center">
+                    <h1 class="font-light text-white"><i class="mdi mdi-file-export"></i></h1>
+                    <h6 class="text-white">Exporter questions</h6>
                 </div>
             </div>
         </a>
-    </div>
-    {% endif %}
-        <!-- Column -->
+    </div> 
+    <!-- Column -->
     <div class="col-md-6 col-lg-2 col-xlg-3">
-
+        <a href="{{ path('import') }}">
+            <div class="card card-hover">
+                <div class="box bg-success text-center">
+                    <h1 class="font-light text-white"><i class="mdi mdi-file-import"></i></h1>
+                    <h6 class="text-white">Importer questions</h6>
+                </div>
+            </div>
+        </a>
+    </div> 
+    <!-- Column -->
+    <div class="col-md-6 col-lg-2 col-xlg-3">
+        <a href="{{ path('about') }}">
+            <div class="card card-hover">
+                <div class="box bg-warning text-center">
+                    <h1 class="font-light text-white"><i class="mdi mdi-alert-box"></i></h1>
+                    <h6 class="text-white">A propos</h6>
+                </div>
+            </div>
+        </a>
+    </div> 
+    <!-- Column -->
+    <div class="col-md-6 col-lg-2 col-xlg-3">
         {% set niveaux = NiveauRepository.findAll() %}
         {% set min = 0 %}
 
@@ -119,11 +137,12 @@
                 {% endif %}
         {% endfor %}
         {% if is_granted('ROLE_ADMIN') %}
+        
             {% if min != 0 %}
                 <a href="{{ path('families_index', {'niveau': min}) }}">
                     <div class="card card-hover">
-                        <div class="box bg-warning text-center">
-                            <h1 class="font-light text-white"><i class="mdi mdi-collage"></i></h1>
+                        <div class="box bg-info text-center">
+                            <h1 class="font-light text-white"><i class="mdi mdi-television-guide"></i></h1>
                             <h6 class="text-white">Articles</h6>
                         </div>
                     </div>
@@ -133,49 +152,32 @@
             {% if app.user.article.id != null %}
                 <a href="{{ path('families_niveau', {'id': app.user.article.id}) }}">
                     <div class="card card-hover">
-                        <div class="box bg-warning text-center">
-                            <h1 class="font-light text-white"><i class="mdi mdi-collage"></i></h1>
+                        <div class="box bg-info text-center">
+                            <h1 class="font-light text-white"><i class="mdi mdi-television-guide"></i></h1>
                             <h6 class="text-white">Articles</h6>
                         </div>
                     </div>
                 </a>
             {% endif %}
+    
         {% endif %}
-        
+    </div>    
+        <!-- Column -->
+    <!-- Column -->
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="col-md-6 col-lg-2 col-xlg-3">
+            <a href="{{ path('admin_utilisateurs') }}">
+                <div class="card card-hover">
+                    <div class="box bg-success text-center">
+                        <h1 class="font-light text-white"><i class="mdi mdi-account-multiple"></i></h1>
+                        <h6 class="text-white">Utilisateur</h6>
+                    </div>
+                </div>
+            </a>
+        </div>
     </div>
-    <div class="col-md-6 col-lg-2 col-xlg-3">
-        <a href="{{ path('export') }}">
-            <div class="card card-hover">
-                <div class="box bg-cyan text-center">
-                    <h1 class="font-light text-white"><i class="mdi mdi-pencil"></i></h1>
-                    <h6 class="text-white">Exporter questions</h6>
-                </div>
-            </div>
-        </a>
-    </div> 
-    <!-- Column -->
-    <div class="col-md-6 col-lg-2 col-xlg-3">
-        <a href="{{ path('import') }}">
-            <div class="card card-hover">
-                <div class="box bg-success text-center">
-                    <h1 class="font-light text-white"><i class="mdi mdi-calendar-check"></i></h1>
-                    <h6 class="text-white">Importer questions</h6>
-                </div>
-            </div>
-        </a>
-    </div> 
-    <!-- Column -->
-    <div class="col-md-6 col-lg-2 col-xlg-3">
-        <a href="{{ path('about') }}">
-            <div class="card card-hover">
-                <div class="box bg-warning text-center">
-                    <h1 class="font-light text-white"><i class="mdi mdi-alert"></i></h1>
-                    <h6 class="text-white">A propos</h6>
-                </div>
-            </div>
-        </a>
-    </div> 
-    <!-- Column -->
+    {% endif %}
+        <!-- Column -->
 </div>
 <!-- ============================================================== -->
 <!-- Sales chart -->

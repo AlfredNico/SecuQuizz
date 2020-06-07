@@ -1,11 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Types index{% endblock %}
+{% block title %}Types | Secu Quizz{% endblock %}
 
 {% block body %}
-    <h1>Types index</h1>
+    <h1>Types </h1>
+    <div style="position: absolute; right: 0; margin-top: -50px; margin-right: 20px;">
+        <a href="{{ path('types_new') }}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i><span>  créer type</span></a>
+    </div>
 
-    <table class="table">
+    <table class="table table-sm" id="myTable">
         <thead>
             <tr>
                 <th>Id</th>
@@ -19,17 +22,15 @@
                 <td>{{ type.id }}</td>
                 <td>{{ type.title }}</td>
                 <td>
-                    <a href="{{ path('types_show', {'id': type.id}) }}">show</a>
-                    <a href="{{ path('types_edit', {'id': type.id}) }}">edit</a>
+                    <a href="{{ path('types_show', {'id': type.id}) }}" class="btn btn-sm btn-outline-warning"><i class="mdi mdi-pencil"></i></a>
+                    <a href="{{ path('types_edit', {'id': type.id}) }}">editer</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="3">Aucun enregistrement trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('types_new') }}">Create new</a>
 {% endblock %}

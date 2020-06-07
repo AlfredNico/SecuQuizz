@@ -32,7 +32,7 @@ class AdminCotrollerController extends AbstractController
      */
     public function usersList(UsersRepository $users){
         return $this->render('admin/users.html.twig', [
-            'users' => $users->findAll(),
+            'users' => $users->findBy([], ['id' => 'asc']),
         ]);
     }
 

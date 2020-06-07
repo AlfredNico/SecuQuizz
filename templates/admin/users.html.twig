@@ -1,10 +1,21 @@
 {% extends "base.html.twig" %}
 
-{% block title %} Listes des utilisateurs {% endblock %}
+{% block title %} utilisateurs | Secu Quizz {% endblock %}
 
 {% block body %}
+     {# On affiche tous nos message dans nos controller #}
+    {% for message in app.flashes('message') %}
+        <div class="alert alert-success" role="alert"> {{ message }} </div>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+        <div class="alert alert-danger" role="alert"> {{ message }} </div>
+    {% endfor %}
+    {% for message in app.flashes('warning') %}
+        <div class="alert alert-warning" role="alert"> {{ message }} </div>
+    {% endfor %}
+
     <h3>Listes des utilisateurs</h3>
-        <table class="table" id="myTable">
+        <table class="table table-sm" id="myTable">
         <thead>
             <tr>
                 <th>N°</th>

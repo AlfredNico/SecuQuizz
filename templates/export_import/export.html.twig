@@ -9,11 +9,12 @@
              <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-12 d-flex no-block align-items-center">
-                        <h4 class="page-title">Accueil</h4>
+                        <h4 class="page-title">Exporter en Excel</h4>
                         <div class="ml-auto text-right">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{ path('accueil') }}">Accueil</a></li>
+                                    <li class="breadcrumb-item"><a href="{{ path('import') }}">Importer</a></li>
                                      {% if is_granted('ROLE_ADMIN') %}
                                         <li class="breadcrumb-item active" aria-current="page"><a href="{{ path('admin_utilisateurs') }}">Utilisateur</a></li>
                                     {% endif %}

@@ -47,12 +47,18 @@ class EditUserType2 extends AbstractType
             ->add('niveau', EntityType::class, [
                 'class' => Niveau::class,
                 'choice_label' => 'title',
-                'multiple' => false
+                'multiple' => false,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
             ])
             ->add('article', EntityType::class, [
                 'class' => Families::class,
                 'choice_label' => 'title',
-                'multiple' => false
+                'multiple' => false,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Valider',
