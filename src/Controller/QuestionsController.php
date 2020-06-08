@@ -29,7 +29,6 @@ class QuestionsController extends AbstractController
      */
     public function index(QuestionsRepository $questionsRepository, $article, $parent): Response
     {
-
         $user = $this->getUser()->getId();
         if ($this->container->get('security.authorization_checker')->isGranted('ROLE_ADMIN') || $this->container->get('security.authorization_checker')->isGranted('ROLE_EDITOR')) {
             return $this->render('questions/index.html.twig', [
@@ -111,7 +110,7 @@ class QuestionsController extends AbstractController
             if ($choix == 'Valider') {
                 $em = $this->getDoctrine()->getManager();
                 $question->setNumc($numc);
-                $question->setEtat('En attente de validation');
+                $question->setEtat('à valider');
                 $question->setUsers($this->getUser());
 
                 $repository = $this->getDoctrine()->getRepository(Families::class);
@@ -285,4 +284,5 @@ class QuestionsController extends AbstractController
         }
         return $this->redirectToRoute('questions_new', array('article' => $article, 'parent' => $parent));
     }
+    
 }

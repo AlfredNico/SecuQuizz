@@ -32,6 +32,9 @@ class FamiliesAffectationType extends AbstractType
                         ->andwhere('u.roles LIKE :role')
                         ->setParameter('role', '%"' . 'ROLE_EDITOR' . '"%');
                 },
+                'attr' => [
+                    'class' => 'form-control'
+                ]
             ));
     }
 

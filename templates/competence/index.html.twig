@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Liste des Compétences</h1>
 
-    <table class="table">
+    <table class="table table-sm" id="myTable">
         <thead>
             <tr>
                 <th>Id</th>
@@ -19,7 +19,7 @@
                 <td>{{ competence.id }}</td>
                 <td>{{ competence.title }}</td>
                 <td>
-                    <a href="{{ path('competence_show', {'id': competence.id, 'article': article, 'parent': parent}) }}">Détails</a>
+                    <a href="{{ path('competence_show', {'id': competence.id, 'article': article, 'parent': parent}) }}">Détails</a> || 
                     <a href="{{ path('competence_edit', {'id': competence.id, 'article': article, 'parent': parent}) }}">Modifier</a>
                 </td>
             </tr>
@@ -31,6 +31,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('competence_new', {'article': article, 'parent': parent}) }}">Ajouter</a>
+    <a href="{{ path('competence_new', {'article': article, 'parent': parent}) }}">Ajouter</a> ||
     <a href="{{ path('families_niveau', {'id': parent}) }}">Retour à l'article</a>
 {% endblock %}

@@ -1,0 +1,3 @@
+ Titre question , Article , Competence ,Niveau, Test compelemenaire , Autre teste , Type, Etat , Réponse ,IsAnswer
+qui vous etes 1,test article3,competence A,Niveau 1,c'est une texte complementaire 1,autre texte 10,Type 2,Valider,repose 1,TRUE
+qui vous etes 3,test article3,competence A,Niveau 2,c'est une texte complementaire 2,autre texte 20,Type 2,Valider,repose 2,FALSE

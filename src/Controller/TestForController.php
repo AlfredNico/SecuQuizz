@@ -19,10 +19,10 @@ class TestForController extends AbstractController
     public function index(\Swift_Mailer $mailer)
     {
         // Create a message
-        $message = (new \Swift_Message('Hello Email'))
-            ->setFrom('alfrednicotsu@gmail.com')
-            ->setTo('alfrednicotsu@gmail.com')
-            ->setBody('Here is the message itself')
+        $message = (new \Swift_Message("Hello Email"))
+            ->setFrom("alfrednicotsu@gmail.com")
+            ->setTo("tialalaina2@gmail.com")
+            ->setBody("Here is the message itself")
             ;
 
         $mailer->send($message);

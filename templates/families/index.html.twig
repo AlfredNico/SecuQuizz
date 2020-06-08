@@ -114,7 +114,7 @@
         </p>
     {% endif %}
 
-    <table class="table">
+    <table class="table table-sm" id="myTable">
         <thead>
             <tr>
                 <th></th>
@@ -169,33 +169,33 @@
                     {% if (is_granted('ROLE_EDITOR')and app.user.article != null) 
                         or is_granted('ROLE_ADMIN') %}
                         <td>
-                            <a href="{{ path('families_show', {'id': family.id, 'min': min}) }}">Détails</a>
-                            <a href="{{ path('families_edit', {'id': family.id, 'min': min}) }}">Modifier</a>
+                            <a href="{{ path('families_show', {'id': family.id, 'min': min}) }}">Détails</a> || 
+                            <a href="{{ path('families_edit', {'id': family.id, 'min': min}) }}">Modifier</a> ||
                             {% if family.etat == false %}
-                                <a href="{{ path('families_activation', {'id': family.id, 'min': min}) }}">Désactiver</a>
+                                <a href="{{ path('families_activation', {'id': family.id, 'min': min}) }}">Désactiver</a> ||
                             {% else %}
-                                <a href="{{ path('families_activation', {'id': family.id, 'min': min}) }}">Activer</a>
+                                <a href="{{ path('families_activation', {'id': family.id, 'min': min}) }}">Activer</a> ||
                             {% endif %}
 
                             
                             {% if NiveauActuelle != null %}
                                 {% if is_granted('ROLE_EDITOR') and family.title == min %}
                                     <a
-                                        href="{{ path('competence_index_min', {'article': family.id, 'articleEntity': family, 'min': min}) }}">Compétence</a>
+                                        href="{{ path('competence_index_min', {'article': family.id, 'articleEntity': family, 'min': min}) }}">Compétence</a> ||
                                 {% elseif is_granted('ROLE_EDITOR') and NiveauActuelle.id == tab[tablength - 1] %}
                                     <a
-                                        href="{{ path('competence_index', {'article': family.id, 'articleEntity': family, 'parent': family.parent.id}) }}">Compétence</a>
+                                        href="{{ path('competence_index', {'article': family.id, 'articleEntity': family, 'parent': family.parent.id}) }}">Compétence</a> ||
                                 {% elseif is_granted('ROLE_EDITOR') and idNiveau == tab[tablength - 1] %}
                                     <a
-                                        href="{{ path('competence_index', {'article': family.id, 'articleEntity': family, 'parent': family.parent.id}) }}">Compétence</a>
+                                        href="{{ path('competence_index', {'article': family.id, 'articleEntity': family, 'parent': family.parent.id}) }}">Compétence</a> ||
                                 {% endif %}
                             {% elseif is_granted('ROLE_EDITOR') and idNiveau == tab[tablength - 1] %}
-                            <a href="{{ path('competence_index_min', {'article': family.id, 'articleEntity': family, 'min': min}) }}">Compétence</a>
+                            <a href="{{ path('competence_index_min', {'article': family.id, 'articleEntity': family, 'min': min}) }}">Compétence</a> ||
                             {% endif %}
                             {% if family.parent != null %}
                                 {% if is_granted('ROLE_ADMIN')and family.parent.users == null %}
                                     <a
-                                        href="{{ path('families_affectation_user', {'id': family.id, 'min': min}) }}">Affecter Admin User</a>
+                                        href="{{ path('families_affectation_user', {'id': family.id, 'min': min}) }}">Affecter Admin User</a> ||
                                 {% endif %}
                             {% else %}
                                 {% if is_granted('ROLE_ADMIN') %}
@@ -221,7 +221,7 @@
             {% set famili = famil %}
         {% endfor %}
         {% if familis == null %}
-            <a href="{{ path('families_new_niveau1', {'niveau': min}) }}">Ajouter</a>
+            <a href="{{ path('families_new_niveau1', {'niveau': min}) }}">Ajouter article</a>
         {# {% elseif famili.parent == null %}
             <a href="{{ path('families_new_niveau1', {'niveau': min}) }}">Ajouter</a> #}
         {% else %}
@@ -244,8 +244,7 @@
                 {% endif %}
             {% endfor %}
             {# {% if i <= 1 %} #}
-            <a
-                href="{{ path('families_new', {'parent': famili.id,'niveau': NiveauActuelle.id}) }}">Ajouter</a>
+            <a href="{{ path('families_new', {'parent': famili.id,'niveau': NiveauActuelle.id}) }}">Ajouter article</a>
             {# {% else %}
             <a
                 href="{{ path('families_new', {'parent': famili.id,'niveau': NiveauActuelle.id}) }}">Ajouter</a>

@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Types{% endblock %}
+{% block title %}Nouvelle Types | Secu quizz{% endblock %}
 
 {% block body %}
-    <h1>Create new Types</h1>
+    <h1>Créer nouveaux Type</h1>
 
     {{ include('types/_form.html.twig') }}
 
-    <a href="{{ path('types_index') }}">back to list</a>
+    <a href="{{ path('types_index') }}">retour aux types</a>
 {% endblock %}

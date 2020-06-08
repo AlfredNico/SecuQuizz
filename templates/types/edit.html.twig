@@ -5,9 +5,9 @@
 {% block body %}
     <h1>Edit Types</h1>
 
-    {{ include('types/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('types/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('types_index') }}">back to list</a>
+    <a href="{{ path('types_index') }}">retour aux types</a>
 
     {{ include('types/_delete_form.html.twig') }}
 {% endblock %}

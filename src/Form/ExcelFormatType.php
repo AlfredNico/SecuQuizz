@@ -21,6 +21,9 @@ class ExcelFormatType extends AbstractType
             ],
             'label' => false,
             'placeholder' => 'Selectionner le format excel',
+            'attr' => [
+                'class' => 'form-control'
+            ]
         ])
         ->add('submit', SubmitType::class, [
             'label'=>'Exporter',
