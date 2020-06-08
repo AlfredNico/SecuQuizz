@@ -43,46 +43,42 @@ class ExportImportController extends AbstractController
 
         // Set column names
         $columnNames = [
-            'Article',
-            'Competence',
             'Titre question',
-            'Motif',
-            'Text complementaire',
-            'Autre texte',
-            'Type'
+            'test compelemenaire',
+            'Autre teste',
+            'Etat',
+            'Auteur',
+            'type',
+            
         ];
+        // 'Type'
         $columnLetter = 'A';
         foreach ($columnNames as $columnName) {
             // Allow to access AA column if needed and more
             $sheet->setCellValue($columnLetter.'3', $columnName);
-
             // Center text
-            $sheet->getStyle($columnLetter.'2')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $sheet->getStyle($columnLetter.'3')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
             // Text in bold
-            $sheet->getStyle($columnLetter.'2')->getFont()->setItalic(true);
-            $sheet->getStyle($columnLetter.'2')->getFont()->setBold(true);
-            $sheet->getStyle($columnLetter.'2')->getFont()->setColor(new Color(Color::COLOR_DARKGREEN));
+            $sheet->getStyle($columnLetter.'3')->getFont()->setItalic(true);
+            $sheet->getStyle($columnLetter.'3')->getFont()->setBold(true);
+            $sheet->getStyle($columnLetter.'3')->getFont()->setColor(new Color(Color::COLOR_DARKGREEN));
             // Autosize column
             $sheet->getColumnDimension($columnLetter)->setAutoSize(true);
-
             $columnLetter++; 
         }
-
-        $ColumnValue = array();
-
+        // $question->getTypes() 
         $questions = $this->getDoctrine()->getRepository(Questions::class)->findAll();
-        // $competences = $this->getDoctrine()->getRepository(Competences::class)->findA();
         $i = 4; // Beginning row for active sheet
-
         foreach ($questions as $question) {
-            $competence = $this->getDoctrine()->getRepository(Competences::class)->findOneBy(['id' => $question->getCompetences()]);
-            if ($competence!=null) {
-                $familie = $this->getDoctrine()->getRepository(Families::class)->findOneBy(['id' => $competence->getFamilies()]);
-                if ($familie!=null) {
+            // $competence = $this->getDoctrine()->getRepository(Competences::class)->findOneBy(['id' => $question->getCompetences()]);
+            // if ($competence!=null) {
+                $user = $this->getDoctrine()->getRepository(Users::class)->findOneBy(["id"=>$question->getUsers()]);
+                // $familie = $this->getDoctrine()->getRepository(Families::class)->findOneBy(['id' => $competence->getFamilies()]);
+                // if ($familie!=null) {
                     $ColumnValue = [
-                        $familie->getTitle(),  $competence->getTitle(),
-                        $question->getTitle(), $question->getMotif(), $question->getTexteComplementaire(),
-                        $question->getAutreTexte(), $question->getTypes() 
+                        // $familie->getTitle(),  $competence->getTitle(),
+                        $question->getTitle(), $question->getTexteComplementaire(),  $question->getAutreTexte(),
+                        $question->getEtat(), $user->getEmail(), $question->getType()
                     ];
                     
                     $columnLetter = 'A';
@@ -92,18 +88,10 @@ class ExportImportController extends AbstractController
                     }
             
                     $i++;
-                }
-            }
+                // }
+            // }
            
         }
-
-       # dd($ColumnValue);
-
-        // $columnLetter = 'A';
-        // foreach ($columnNames as $columnName) {
-            
-        // }
-
         return $spreadsheet;
     }
 
@@ -112,13 +100,17 @@ class ExportImportController extends AbstractController
      */
     public function exportAction(Request $request)
     {
+        // $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        // $this->getUser() 
+
+
         $form = $this->createForm(ExcelFormatType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $format = $data['format'];
-            $filename = 'Browser_characteristics.'.$format;
+            $filename = 'Export_Liste_questions.'.$format;
 
             $spreadsheet = $this->createSpreadsheet();
 
@@ -217,45 +209,25 @@ class ExportImportController extends AbstractController
             }
         }
         $values = $data[$worksheetTitle]['columnValues'];
-        $questions = new Questions();
-        
-        $index_row=3;
-        foreach ( $values as $ligne ) {
-           //dd( $ligne[4] );
+        //dd($values);
 
-                //dd( $values[$index_row][$index_cell] );
-            $competence = $this->getDoctrine()->getRepository(Competences::class)->findOneBy(
-                ['title'=> $ligne[1]]
+        $vas = array();
+        foreach ($values as $va) {
+            # code...
+            $vas[] = array(
+                'Question' => $va[0],
+                'complementaire' => $va[1],
+                'Autre' => $va[2],
+                'Etat' => $va[3]
             );
-            $type = $this->getDoctrine()->getRepository(Types::class)->findOneBy(
-                ['title'=> $ligne[6]]
-            );
-
-            if ($competence!=null && $type!=null) {
-
-                $questions->setTitle($ligne[2]);
-                $questions->setTexteComplementaire($ligne[4]);
-                $questions->setAutreTexte($ligne[6]);
-
-                $questions->setUsers($users);
-                $questions->setEtat('0');
-                // $questions->setCompetences($competence);
-                // $questions->setCreateAt(new \DateTime());
-                // $questions->addType($type);
-                //$questions->setAttached('');
-
-                $enityManager = $this->getDoctrine()->getManager();
-                $enityManager->persist($questions);
-                $enityManager->flush();
-            }
-            $index_row++;
         }
         
+        dd($vas);
         return $data;
     }
 
     /**
-     * @Route("/import", name="import")
+     * @Route("/import_excel", name="import")
      */
     public function importAction(Request $request, SluggerInterface $slugger, UserInterface $users=null)
     {
@@ -290,7 +262,7 @@ class ExportImportController extends AbstractController
             
            // $filename = $this->getParameter('kernel.project_dir') . $filename_Line;
             // $filename = $this->getParameter('kernel.project_dir')  . '/public/export/Browser_characteristics.csv';
-            $filename = $this->getParameter('kernel.project_dir')  . '/public/export/' . $newFilename;
+            $filename = $this->getParameter('kernel.project_dir')  . '/public/import/' . $newFilename;
             
             if (!file_exists($filename)) {
                 throw new \Exception('File does not exist');
@@ -315,9 +287,15 @@ class ExportImportController extends AbstractController
     }
 
     /**
-     * @Route("/export2/Export2", name="export2")
+     * @Route("/export2", name="export2")
      */
-    public function export(){
+    public function export()
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->setCellValue('A1', 'Bonjours mes amies');
+
 
         return $this->render("export_import/testImport.html.twig");
     }

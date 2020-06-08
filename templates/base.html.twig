@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -13,7 +10,7 @@
         <meta name="author" content="">
         <!-- Favicon icon -->
         <!-- <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png"> -->
-            <title>{% block title %}{% endblock %}</title>
+        <title>{% block title %}{% endblock %}</title> 
 
         <!-- Custom CSS -->
         <link href="{{ asset('build/libs/flot/css/float-chart.css') }}" type="text/css" rel="stylesheet">
@@ -92,11 +89,11 @@
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
                             {% if is_granted('ROLE_ADMIN') %}
-                                Super Administrateur
+                                <a href="#" class="font-weight-bold">Super Administrateur</a>
                             {% elseif is_granted('ROLE_EDITOR') %}
-                                Administrateur
+                                <a href="#" class="font-weight-bold">Administrateur</a>
                             {% elseif is_granted('ROLE_USER') %}
-                                Utilisateur
+                                <a href="#" class="font-weight-bold">Utilisateur</a>
                             {% endif %}
                             <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{{ asset('build/images/1.jpg') }}" alt="user" class="rounded-circle" width="31"></a>
                             <div class="dropdown-menu dropdown-menu-right user-dd animated">
@@ -127,12 +124,12 @@
                          {% if is_granted('ROLE_ADMIN') %}
                             <li class="sidebar-item">
                                 <a class="sidebar-link waves-effect waves-dark sidebar-link"  href="{{ path('admin_utilisateurs') }}" aria-expanded="false">
-                                    <i class="mdi mdi-package-variant-closed"></i><span class="hide-menu">Utilisateur</span>
+                                    <i class="mdi mdi-account-multiple"></i><span class="hide-menu">Utilisateur</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
                                 <a class="sidebar-link waves-effect waves-dark sidebar-link"  href="{{ path('niveau_index') }}" aria-expanded="false">
-                                    <i class="mdi mdi-package-variant-closed"></i><span class="hide-menu">Niveau</span>
+                                    <i class="mdi mdi-elevation-rise"></i><span class="hide-menu">Niveau</span>
                                 </a>
                             </li>
                         {% endif %}
@@ -151,42 +148,42 @@
                             {% if is_granted('ROLE_ADMIN') %}
                                 {% if min != 0 %}
                                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('families_index', {'niveau': min}) }}">
-                                        <i class="mdi mdi-package-variant-closed"></i><span class="hide-menu">Articles</span>
+                                        <i class="mdi mdi-television-guide"></i><span class="hide-menu">Articles</span>
                                     </a>
                                 {% endif %}
                             {% elseif (is_granted('ROLE_EDITOR')) and (app.user.article != "") %}
                                 {% if app.user.article.id != null %}
                                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('families_niveau', {'id': app.user.article.id}) }}">
-                                        <i class="mdi mdi-package-variant-closed"></i><span class="hide-menu">Articles</span>
+                                        <i class="mdi mdi-television-guide"></i><span class="hide-menu">Articles</span>
                                     </a>
                                 {% endif %}
                             {% endif %}
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('types_index') }}">
-                                <i class="mdi mdi-package-variant-closed"></i><span class="hide-menu">Types</span>
+                                <i class="mdi mdi-calendar-multiple-check"></i><span class="hide-menu">Types</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
                                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('questions_index') }}">
-                                        <i class="mdi mdi-package-variant-closed"></i><span class="hide-menu">Questions</span>
+                                        <i class="mdi mdi-help"></i><span class="hide-menu">Questions</span>
                                     </a>
                         </li>
                         {% if is_granted('ROLE_USER') %}
                             <li class="sidebar-item">
                                 <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('profil_index') }}">
-                                    <i class="mdi mdi-package-variant-closed"></i><span class="hide-menu">Profile</span>
+                                    <i class="mdi mdi-account-key"></i><span class="hide-menu">Profile</span>
                                 </a>
                             </li>
                         {% endif %}
                        <li class="sidebar-item">
                                 <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('about') }}">
-                                    <i class="mdi mdi-package-variant-closed"></i><span class="hide-menu"> A propos</span>
+                                    <i class="mdi mdi-alert-box"></i><span class="hide-menu"> A propos</span>
                                 </a>
                         </li>
                         <li class="sidebar-item">
                                 <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ path('app_logout') }}">
-                                    <i class="fa fa-power-off m-r-5 m-l-5"></i><span class="hide-menu">
+                                    <i class="mdi mdi-power"></i><span class="hide-menu">
                                         Déconnecter
                                 </a>
                         </li>
@@ -224,7 +221,7 @@
             <!-- footer -->
             <!-- ============================================================== -->
             <footer class="footer text-center">
-              Tous droits réservés aux administrateurs de ce site. Secu Quizz 2020
+              Tous droits réservés aux administrateurs de ce site. Secu Quizz &#169; 2020
             </footer>
           <!-- ============================================================== -->
           <!-- End footer -->
@@ -278,6 +275,7 @@
   <script src="{{ asset('build/libs/flot.tooltip/js/jquery.flot.tooltip.min.js') }}"></script>
   <script src="{{ asset('build/js/pages/chart/chart-page-init.js') }}"></script>
   <script src="{{ asset('build/datatables/datatables.min.js') }}"></script>
+    <script src="{{ asset('build/my_jquery_2.js') }}"></script>
   <script src="{{ asset('build/my_jquery.js') }}"></script>
 {% block javascripts %} {% endblock %}
 

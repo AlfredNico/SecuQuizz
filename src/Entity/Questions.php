@@ -220,4 +220,11 @@ class Questions
 
         return $this;
     }
+
+    public function __toString() {
+        if(is_null($this->users)) {
+            return 'NULL';
+        }
+        return $this->users;
+    }
 }

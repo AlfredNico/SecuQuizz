@@ -1,4 +1,4 @@
-{% extends "baseLogin.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block body %}
     
@@ -14,8 +14,7 @@
         <div class="alert alert-warning" role="alert"> {{ message }} </div>
     {% endfor %}
 
-    <form class="form-vertical" method="POST">
-
+    {# <form class="form-vertical" method="POST">
         {{ form_start(userForm) }}
             <div class="control-group normal_text"> <h3><img src="{{asset('build/images/Untitled-2.png')}}"></h3></div>
             <div class="control-group">
@@ -23,7 +22,7 @@
                     <div class="main_input_box">
                         <span class="add-on bg_ly"><i class="icon-lock"></i></span>
                          {{ form_widget(userForm.email) }}
-                        {# <input type="password" name="password" id="pass" class="form-control" required placeholder="Mot de passe"> #}
+                        {# <input type="password" name="password" id="pass" class="form-control" required placeholder="Mot de passe"> 
                     </div>
                 </div>
             </div>
@@ -32,11 +31,18 @@
                 <span class="pull-left"><a href="{{ path('app_login') }}" class="flip-link btn btn-success" id="to-login">&laquo; Se Connecter</a></span>
                 <span class="pull-right">
                     {{ form_widget(userForm.submit) }}
-                    {# <button type="submit" class="btn btn-success">Valider</button> #}
+                    {# <button type="submit" class="btn btn-success">Valider</button> 
                 </span>
             </div>
         {{ form_end(userForm) }}
-    </form>
+    </form> #}
+
+    <div class="container">
+        <h3>Modifier l'utilisateur</h3>
+        {{ form(userForm) }}
+        <a href="{{ path('admin_utilisateurs') }}">Retour liste utilisateur</a>
+    </div>
+    
 </div>
 
 {% endblock %}
