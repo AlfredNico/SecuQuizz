@@ -284,5 +284,4 @@ class QuestionsController extends AbstractController
         }
         return $this->redirectToRoute('questions_new', array('article' => $article, 'parent' => $parent));
     }
-    
 }
