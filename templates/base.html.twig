@@ -127,11 +127,16 @@
                                     <i class="mdi mdi-account-multiple"></i><span class="hide-menu">Utilisateur</span>
                                 </a>
                             </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link waves-effect waves-dark sidebar-link"  href="{{ path('niveau_index') }}" aria-expanded="false">
-                                    <i class="mdi mdi-elevation-rise"></i><span class="hide-menu">Niveau</span>
-                                </a>
-                            </li>
+
+                            {% set articles = FamiliesRepository.findAll() %}
+                            {% if articles == null %}
+                                    <li class="sidebar-item">
+                                        <a class="sidebar-link waves-effect waves-dark sidebar-link"  href="{{ path('niveau_index') }}" aria-expanded="false">
+                                            <i class="mdi mdi-elevation-rise"></i><span class="hide-menu">Niveau</span>
+                                        </a>
+                                    </li>
+                            {% endif %}       
+                
                         {% endif %}
                         <li class="sidebar-item">
                             {% set niveaux = NiveauRepository.findAll() %}

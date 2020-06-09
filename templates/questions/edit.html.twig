@@ -5,9 +5,9 @@
 {% block body %}
     <h1>Editer Questions</h1>
 
-    {{ include('questions/_form.html.twig', {'button_label': 'Mise a jour'}) }}
+    {{ include('questions/_form.html.twig', {'button_label': 'Mise a jour'}) }} ||
 
-    <a href="{{ path('questions_index', {'article': article, 'parent': parent}) }}">liste questions</a>
+    <a href="{{ path('questions_index', {'article': article, 'parent': parent}) }}">liste questions</a> ||
 
     {{ include('questions/_delete_form.html.twig') }}
 {% endblock %}
