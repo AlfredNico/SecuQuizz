@@ -328,13 +328,14 @@ class ExportImportController extends AbstractController
                 }
             }
         }
+
         return $data;
     }
 
     /**
      * @Route("/import_excel/{parent}/{article}", name="import_excel")
      */
-    public function importAction(Request $request, SluggerInterface $slugger, UserInterface $users = null, $parent, $article)
+    public function importAction(Request $request, SluggerInterface $slugger, UserInterface $users = null, $parent, $article, \Swift_Mailer $mailer)
     {
         $form = $this->createForm(ImportFormType::class);
         $form->handleRequest($request);
@@ -381,6 +382,15 @@ class ExportImportController extends AbstractController
             // return $this->render('export_import/readimport.html.twig', [
             //     'data' => $data,
             // ]);
+            // Create a message
+            $message = (new \Swift_Message("import question | Secu Quizz"))
+            ->setFrom("alfrednicotsu@gmail.com")
+            // ->setTo($this->getUser()->getEmail())
+            ->setTo('Super@Admin.fr')
+            ->setBody("Nouvelle question a été ajouter à partir d'import fichier Excel !");
+
+            $mailer->send($message);
+        
             return $this->redirectToRoute('questions_index', [
                 'parent' => $parent,
                 'article' => $article

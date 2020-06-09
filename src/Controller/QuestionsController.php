@@ -6,6 +6,7 @@ use App\Entity\Answers;
 use App\Entity\Compteur;
 use App\Entity\Families;
 use App\Entity\Questions;
+use App\Entity\Users;
 use App\Form\AnswersType;
 use App\Form\QuestionsType;
 use App\Form\QuestionsValidationType;
@@ -64,22 +65,6 @@ class QuestionsController extends AbstractController
      */
     public function new(Request $request, SluggerInterface $slugger, $article, $parent, \Swift_Mailer $mailer): Response
     {
-        // $question = new Questions();
-        // $form = $this->createForm(QuestionsType::class, $question);
-        // $form->handleRequest($request);
-
-        // if ($form->isSubmitted() && $form->isValid()) {
-        //     $entityManager = $this->getDoctrine()->getManager();
-        //     $entityManager->persist($question);
-        //     $entityManager->flush();
-
-        //     return $this->redirectToRoute('questions_index');
-        // }
-
-        // return $this->render('questions/new.html.twig', [
-        //     'question' => $question,
-        //     'form' => $form->createView(),
-        // ]);
         $repository = $this->getDoctrine()->getRepository(Compteur::class);
         // $repository1 = $this->getDoctrine()->getRepository(Produit::class);
         $compteur = $repository->find(1);
@@ -153,22 +138,19 @@ class QuestionsController extends AbstractController
                 // $prod = $repository1->findOneBy(array('id' => $Tabcomm[$i]->getProduit()));
                 // $reponse->setProduit($prod);
 
-
-
-
-
                 $em->persist($question);
 
                 $compteur->setNumcom($numc + 1);
                 $em->persist($compteur);
                 $em->flush();
 
-
                 $session->clear();
+                $user_article = $this->getDoctrine()->getRepository(Users::class)->findOneBy(['id'=>$EntiteArticle->getUsers()]);
 
-                $message = (new \Swift_Message("Ajout de(s) nouveau(x) question dans Secu-Quizz"))
-                    ->setFrom("fahtialalaina2@gmail.com")
-                    ->setTo("alfrednicotsu@gmail.com")
+                // Create a message
+                $message = (new \Swift_Message("Ajout question | Secu Quizz"))
+                  ->setFrom("fahtialalaina2@gmail.com")
+                    ->setTo($user_article->getEmail())
                     ->setBody("Salut, un utilisateur vient de poster une ou des questions dans Secu-Quizz!");
 
                 $mailer->send($message);
