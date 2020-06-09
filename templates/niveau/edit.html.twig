@@ -4,11 +4,17 @@
 
 {% block body %}
     <h1>Editer Niveau</h1>
-    <div style="position: absolute; right: 0; margin-top: -50px; margin-right: 20px;">
-        <a href="{{ path('niveau_index') }}" class="btn btn-success"><i class="fa fa-undo" aria-hidden="true"></i><span>  retour niveau</span></a>
+    <div
+        style="position: absolute; right: 0; margin-top: -50px; margin-right: 20px;">
+        <a href="{{ path('niveau_index') }}" class="btn btn-success">
+            <i class="fa fa-undo" aria-hidden="true"></i>
+            <span>
+                retour niveau</span></a>
     </div>
 
     {{ include('niveau/_form.html.twig', {'button_label': 'Mettre a jour'}) }}
-
-    {{ include('niveau/_delete_form.html.twig') }}
+    {% set articles = FamiliesRepository.findAll() %}
+    {% if articles == null %}
+        {{ include('niveau/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}

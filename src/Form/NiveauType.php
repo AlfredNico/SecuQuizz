@@ -15,16 +15,10 @@ class NiveauType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control', 'placeholder' => 'Titre Type ...'
+                    'class' => 'form-control', 'placeholder' => 'Titre Niveau ...'
                 ]
             ])
-            ->add('ordre', [
-                'attr' => [
-                    'class' => 'form-control', 'placeholder' => 'Ordre Type ...'
-                ]
-            ]
-        )
-        ;
+            ->add('ordre');
     }
 
     public function configureOptions(OptionsResolver $resolver)

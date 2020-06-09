@@ -3,10 +3,18 @@
 {% block title %}Niveau | Secu Quizz{% endblock %}
 
 {% block body %}
-    <h1>Niveau </h1>
-    <div style="position: absolute; right: 0; margin-top: -50px; margin-right: 20px;">
-        <a href="{{ path('niveau_new') }}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i><span>  créer nouveau</span></a>
-    </div>
+    <h1>Niveau
+    </h1>
+    {% set articles = FamiliesRepository.findAll() %}
+    {% if articles == null %}
+        <div
+            style="position: absolute; right: 0; margin-top: -50px; margin-right: 20px;">
+            <a href="{{ path('niveau_new') }}" class="btn btn-success">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                <span>
+                    créer nouveau</span></a>
+        </div>
+    {% endif %}
 
     <table class="table" id="myTable">
         <thead class="font-weight-bold">
@@ -18,21 +26,21 @@
             </tr>
         </thead>
         <tbody>
-        {% for niveau in niveau %}
-            <tr>
-                <td>{{ niveau.id }}</td>
-                <td>{{ niveau.title }}</td>
-                <td>{{ niveau.ordre }}</td>
-                <td>
-                    <a href="{{ path('niveau_show', {'id': niveau.id}) }}">détail</a>
-                    {# <a href="{{ path('niveau_edit', {'id': niveau.id}) }}">edit</a> #}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">Pas de niveau trouvé</td>
-            </tr>
-        {% endfor %}
+            {% for niveau in niveau %}
+                <tr>
+                    <td>{{ niveau.id }}</td>
+                    <td>{{ niveau.title }}</td>
+                    <td>{{ niveau.ordre }}</td>
+                    <td>
+                        <a href="{{ path('niveau_show', {'id': niveau.id}) }}">détail</a>
+                        {# <a href="{{ path('niveau_edit', {'id': niveau.id}) }}">edit</a> #}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">Pas de niveau trouvé</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 {% endblock %}
