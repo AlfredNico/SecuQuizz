@@ -51,10 +51,11 @@ class NiveauController extends AbstractController
     /**
      * @Route("/{id}", name="niveau_show", methods={"GET"})
      */
-    public function show(Niveau $niveau): Response
+    public function show(Niveau $niveau, $id): Response
     {
         return $this->render('niveau/show.html.twig', [
             'niveau' => $niveau,
+            'id' => $id,
         ]);
     }
 

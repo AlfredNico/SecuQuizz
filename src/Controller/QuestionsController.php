@@ -62,7 +62,7 @@ class QuestionsController extends AbstractController
     /**
      * @Route("/new/{article}/{parent}", name="questions_new", methods={"GET","POST"})
      */
-    public function new(Request $request, SluggerInterface $slugger, $article, $parent): Response
+    public function new(Request $request, SluggerInterface $slugger, $article, $parent, \Swift_Mailer $mailer): Response
     {
         // $question = new Questions();
         // $form = $this->createForm(QuestionsType::class, $question);
@@ -165,6 +165,13 @@ class QuestionsController extends AbstractController
 
 
                 $session->clear();
+
+                $message = (new \Swift_Message("Ajout de(s) nouveau(x) question dans Secu-Quizz"))
+                    ->setFrom("fahtialalaina2@gmail.com")
+                    ->setTo("alfrednicotsu@gmail.com")
+                    ->setBody("Salut, un utilisateur vient de poster une ou des questions dans Secu-Quizz!");
+
+                $mailer->send($message);
 
                 return $this->redirectToRoute('questions_index', array('article' => $article, 'parent' => $parent));
             } else if ($choix == "Add") {
