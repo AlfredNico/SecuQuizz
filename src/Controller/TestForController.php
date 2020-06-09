@@ -19,17 +19,15 @@ class TestForController extends AbstractController
     public function index(\Swift_Mailer $mailer)
     {
         // Create a message
-        $message = (new \Swift_Message("Hello Email"))
-            ->setFrom("alfrednicotsu@gmail.com")
-            ->setTo("tialalaina2@gmail.com")
-            ->setBody("Here is the message itself")
-            ;
+        $message = (new \Swift_Message("Test Mail From Fandresena"))
+            ->setFrom("fahtialalaina2@gmail.com")
+            ->setTo("alfrednicotsu@gmail.com")
+            ->setBody("Salut Nico");
 
         $mailer->send($message);
-            
+
         return $this->render('test_for/index.html.twig', [
             'controller_name' => 'TestForController',
         ]);
     }
-    
 }

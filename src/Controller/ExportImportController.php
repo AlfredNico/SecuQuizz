@@ -58,62 +58,63 @@ class ExportImportController extends AbstractController
             ' Etat ',
             ' Type ',
             ' Réponse '
-            
+
         ];
         // 'Type'
         $columnLetter = 'A';
         foreach ($columnNames as $columnName) {
             // Allow to access AA column if needed and more
-            $sheet->setCellValue($columnLetter.'3', $columnName);
+            $sheet->setCellValue($columnLetter . '3', $columnName);
             // Center text
-            $sheet->getStyle($columnLetter.'3')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $sheet->getStyle($columnLetter . '3')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
             // Text in bold
-            $sheet->getStyle($columnLetter.'3')->getFont()->setItalic(true);
-            $sheet->getStyle($columnLetter.'3')->getFont()->setBold(true);
-            $sheet->getStyle($columnLetter.'3')->getFont()->setColor(new Color(Color::COLOR_DARKGREEN));
+            $sheet->getStyle($columnLetter . '3')->getFont()->setItalic(true);
+            $sheet->getStyle($columnLetter . '3')->getFont()->setBold(true);
+            $sheet->getStyle($columnLetter . '3')->getFont()->setColor(new Color(Color::COLOR_DARKGREEN));
             // Autosize column
             $sheet->getColumnDimension($columnLetter)->setAutoSize(true);
-            $columnLetter++; 
+            $columnLetter++;
         }
         // $question->getTypes() 
         $questions = $this->getDoctrine()->getRepository(Questions::class)->findAll();
-        $etat = 'Non valider'; $valider = 'faux';
+        $etat = 'Non valider';
+        $valider = 'faux';
         $i = 4; // Beginning row for active sheet
         foreach ($questions as $question) {
             // $competence = $this->getDoctrine()->getRepository(Competences::class)->findOneBy(['id' => $question->getCompetences()]);
             // if ($competence!=null) {
-                $user = $this->getDoctrine()->getRepository(Users::class)->findOneBy(["id"=>$question->getUsers()]);
-                $article = $this->getDoctrine()->getRepository(Families::class)->findOneBy(["id"=>$question->getArticle()]);
-                $competence = $this->getDoctrine()->getRepository(Competence::class)->findOneBy(["article"=>$article->getId()]);
-                $answer = $this->getDoctrine()->getRepository(Answers::class)->findOneBy(["questions"=>$question->getId()]);
+            $user = $this->getDoctrine()->getRepository(Users::class)->findOneBy(["id" => $question->getUsers()]);
+            $article = $this->getDoctrine()->getRepository(Families::class)->findOneBy(["id" => $question->getArticle()]);
+            $competence = $this->getDoctrine()->getRepository(Competence::class)->findOneBy(["article" => $article->getId()]);
+            $answer = $this->getDoctrine()->getRepository(Answers::class)->findOneBy(["questions" => $question->getId()]);
 
-                if($answer->getisAnswer() ==  1){
-                    $valider = 'vrai';
-                }
-                
-                if ($question->getEtat()!=null && $question->getEtat() == 1) {
-                    # code...
-                    $etat = 'Valider';
-                };
-                
-                // $familie = $this->getDoctrine()->getRepository(Families::class)->findOneBy(['id' => $competence->getFamilies()]);
-                // if ($familie!=null) {
-                    $ColumnValue = [
-                        // $familie->getTitle(),  $competence->getTitle(),
-                        $question->getTitle(), $article->getTitle(), $competence->getTitle(), $question->getTexteComplementaire(), 
-                        $user->getEmail(), $question->getAutreTexte(), $etat,  $question->getType(), $answer->getTitle() . '/ ' . $valider
-                    ];
-                    
-                    $columnLetter = 'A';
-                    foreach ($ColumnValue as $value) {
-                        $sheet->setCellValue($columnLetter.$i, $value);
-                        $columnLetter++;
-                    }
-            
-                    $i++;
-                // }
+            if ($answer->getisAnswer() ==  1) {
+                $valider = 'vrai';
+            }
+
+            if ($question->getEtat() != null && $question->getEtat() == 1) {
+                # code...
+                $etat = 'Valider';
+            };
+
+            // $familie = $this->getDoctrine()->getRepository(Families::class)->findOneBy(['id' => $competence->getFamilies()]);
+            // if ($familie!=null) {
+            $ColumnValue = [
+                // $familie->getTitle(),  $competence->getTitle(),
+                $question->getTitle(), $article->getTitle(), $competence->getTitle(), $question->getTexteComplementaire(),
+                $user->getEmail(), $question->getAutreTexte(), $etat,  $question->getType(), $answer->getTitle() . '/ ' . $valider
+            ];
+
+            $columnLetter = 'A';
+            foreach ($ColumnValue as $value) {
+                $sheet->setCellValue($columnLetter . $i, $value);
+                $columnLetter++;
+            }
+
+            $i++;
             // }
-           
+            // }
+
         }
         return $spreadsheet;
     }
@@ -133,7 +134,7 @@ class ExportImportController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $format = $data['format'];
-            $filename = 'Export_Liste_questions.'.$format;
+            $filename = 'Export_Liste_questions.' . $format;
 
             $spreadsheet = $this->createSpreadsheet();
 
@@ -160,14 +161,14 @@ class ExportImportController extends AbstractController
 
             $response = new StreamedResponse();
             $response->headers->set('Content-Type', $contentType);
-            $response->headers->set('Content-Disposition', 'attachment;filename="'.$filename.'"');
+            $response->headers->set('Content-Disposition', 'attachment;filename="' . $filename . '"');
             $response->setPrivate();
             $response->headers->addCacheControlDirective('no-cache', true);
             $response->headers->addCacheControlDirective('must-revalidate', true);
-            $response->setCallback(function() use ($writer) {
+            $response->setCallback(function () use ($writer) {
                 $writer->save('php://output');
             });
-    
+
             return $response;
         }
 
@@ -225,9 +226,7 @@ class ExportImportController extends AbstractController
                     }
                     if ($rowIndex > 1) {
                         $data[$worksheetTitle]['columnValues'][$rowIndex][] = $cell->getCalculatedValue();
-                         
                     }
-                    
                 }
             }
         }
@@ -239,96 +238,95 @@ class ExportImportController extends AbstractController
             # code...
             $vas[] = array(
                 'Question' => $va[0],
-                'Article' => $va[1],
-                'Competence' => $va[2],
-                'Niveau' => $va[3],
-                'Texte_complementaire' => $va[4],
-                'Autre_Texte' => $va[5],
-                'Type' => $va[6],
-                'Reponse' => $va[7],
-                'isAnswer' => $va[8]
+                // 'Article' => $va[1],
+                'Competence' => $va[1],
+                // 'Niveau' => $va[3],
+                'Texte_complementaire' => $va[2],
+                'Autre_Texte' => $va[3],
+                'Type' => $va[4],
+                'Reponse' => $va[5],
+                'isAnswer' => $va[6]
             );
         }
-        
-        
-        $question = new Questions();
-        $reponse = new Answers();
+
+
+
         $user = $this->getUser();
         $compteur = $this->getDoctrine()->getRepository(Compteur::class)->findOneBy(['id' => 1]);
         $lig = 1;
 
         //dd($vas);
-        
 
+        $em = $this->getDoctrine()->getManager();
         foreach ($vas as $r) {
-            $niveau = $this->getDoctrine()->getRepository(Niveau::class)->findOneBy(['title' => $r['Niveau']]);
+            // $niveau = $this->getDoctrine()->getRepository(Niveau::class)->findOneBy(['title' => $r['Niveau']]);
             $type = $this->getDoctrine()->getRepository(Types::class)->findOneBy(['title' => $r['Type']]);
             $arti = $this->getDoctrine()->getRepository(Families::class)->findOneBy(['id' => $article]);
             $compt = $this->getDoctrine()->getRepository(Competence::class)->findOneBy(['article' => $article]);
-            $question_ques = $this->getDoctrine()->getRepository(Questions::class)->findOneBy(['title'=>$r['Question']]);
+            $question_ques = $this->getDoctrine()->getRepository(Questions::class)->findOneBy(['title' => $r['Question']]);
+
             if ($question_ques != null) {
                 $numc_question = $question_ques->getNumc();
-                if ($niveau!=null && $type!=null && $arti != null && $compt != null) {
+                if ($type != null && $arti != null && $compt != null) {
 
-                    $ques_answers = $question->getAnswers();
+                    $reps = $this->getDoctrine()->getRepository(Answers::class)->findBy(['numc' => $numc_question]);
+                    // $ques_answers = $question_ques->getAnswers();
+                    // dd($ques_answers);
                     $max_lig = 0;
-                    foreach ($ques_answers as $ques_answer) {
-                        if ($max_lig < $ques_answer->getLig()) {
-                            $max_lig = $ques_answer->getLig();
+                    foreach ($reps as $rep) {
+                        if ($max_lig < $rep->getLig()) {
+                            $max_lig = $rep->getLig();
                         }
+                        // dd($max_lig);
                     }
-
+                    // dd($max_lig);
                     #Reponse
+
+                    // $max_lig = $max_lig + 1;
+
+                    $reponse = new Answers();
                     $reponse->setTitle($r['Reponse']);
                     $reponse->setIsAnswer($r['isAnswer']);
                     $reponse->setNumc($numc_question);
                     $reponse->setLig($max_lig + 1);
                     $reponse->setQuestions($question_ques);
-                    $manager_reponse = $this->getDoctrine()->getManager();
-                    $manager_reponse->persist($reponse);
-                    $manager_reponse->flush();
+                    $em->persist($reponse);
 
-                   // dd($r);
-                    
+                    $em->flush();
+
+                    // dd($r);
                 }
-            }
-            else{
-                if ( $type!=null && $arti != null && $compt != null) {
+            } else {
+                if ($type != null && $arti != null && $compt != null) {
                     # Question
+                    $question = new Questions();
                     $question->setTitle($r['Question']);
                     $question->setTexteComplementaire($r['Texte_complementaire']);
                     $question->setAutreTexte($r['Autre_Texte']);
-                    $question->setEtat('à valider'); 
-                    $question->setNumc($compteur->getNumcom());  
-                    $question->setType($type ); 
+                    $question->setEtat('à valider');
+                    $question->setNumc($compteur->getNumcom());
+                    $question->setType($type);
                     $question->setUsers($user);
                     $question->setArticle($arti);
-    
-                    $manager_question = $this->getDoctrine()->getManager();
-                    $manager_question->persist($question);
-                    $manager_question->flush();
-    
+                    $em->persist($question);
+
                     #Reponse
+                    $reponse = new Answers();
                     $reponse->setTitle($r['Reponse']);
                     $reponse->setIsAnswer($r['isAnswer']);
                     $reponse->setNumc($compteur->getNumcom());
                     $reponse->setLig($lig);
                     $reponse->setQuestions($question);
-                    $manager_reponse = $this->getDoctrine()->getManager();
-                    $manager_reponse->persist($reponse);
-                    $manager_reponse->flush();
+                    $em->persist($reponse);
 
                     $compteur->setNumcom($compteur->getNumcom() + 1);
-                    $em = $this->getDoctrine()->getManager(); 
                     $em->persist($compteur);
+
                     $em->flush();
 
-                    //dd($r);
+                    // dd($r);
                 }
-
-
             }
-            
         }
         return $data;
     }
@@ -336,41 +334,41 @@ class ExportImportController extends AbstractController
     /**
      * @Route("/import_excel/{parent}/{article}", name="import_excel")
      */
-    public function importAction(Request $request, SluggerInterface $slugger, UserInterface $users=null, $parent, $article)
+    public function importAction(Request $request, SluggerInterface $slugger, UserInterface $users = null, $parent, $article)
     {
         $form = $this->createForm(ImportFormType::class);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
 
-           $brochureFile = $form->get('import')->getData();
+            $brochureFile = $form->get('import')->getData();
 
-           // this condition is needed because the 'brochure' field is not required
-           // so the PDF file must be processed only when a file is uploaded
-           if ($brochureFile) {
-               $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
-               // this is needed to safely include the file name as part of the URL
-               $safeFilename = $slugger->slug($originalFilename);
-               //$newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
-               $newFilename = $safeFilename.'-'.uniqid().'.'. 'csv';
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($brochureFile) {
+                $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                //$newFilename = $safeFilename.'-'.uniqid().'.'.$brochureFile->guessExtension();
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . 'csv';
                 //dd($newFilename);
-               // Move the file to the directory where brochures are stored
-               try {
-                   $brochureFile->move(
-                       //$this->getParameter('brochures_directory'),
-                       $this->getParameter('brochures_directory'),
-                       $newFilename
-                   );
-               } catch (FileException $e) {
-                   // ... handle exception if something happens during file upload
-               }
-           }
-           
-            
-           // $filename = $this->getParameter('kernel.project_dir') . $filename_Line;
+                // Move the file to the directory where brochures are stored
+                try {
+                    $brochureFile->move(
+                        //$this->getParameter('brochures_directory'),
+                        $this->getParameter('brochures_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+            }
+
+
+            // $filename = $this->getParameter('kernel.project_dir') . $filename_Line;
             // $filename = $this->getParameter('kernel.project_dir')  . '/public/export/Browser_characteristics.csv';
             $filename = $this->getParameter('kernel.project_dir')  . '/public/import/' . $newFilename;
-            
+
             if (!file_exists($filename)) {
                 throw new \Exception('File does not exist');
             }
@@ -389,7 +387,7 @@ class ExportImportController extends AbstractController
             ]);
         }
 
-        
+
 
         // //dd($data);
         return $this->render('export_import/import.html.twig', [
