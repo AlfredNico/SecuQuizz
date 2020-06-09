@@ -37,12 +37,12 @@
                 <th>Motif</th>
                 <td>{{ question.motif }}</td>
             </tr>
-        </tbody>
+        </tbody> 
     </table>
 
-    <a href="{{ path('questions_index', {'article': article, 'parent': parent}) }}">retour aux questions</a> ||
-    {% if is_granted('ROLE_EDITOR') or is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('questions_edit', {'id': question.id, 'article': article, 'parent': parent}) }}">editer</a>
+    <a href="{{ path('questions_index', {'article': article, 'parent': parent}) }}">retour aux questions</a> 
+    {% if is_granted('ROLE_EDITOR') and (app.user.article != null) or is_granted('ROLE_ADMIN') %}
+        || <a href="{{ path('questions_edit', {'id': question.id, 'article': article, 'parent': parent}) }}">editer</a> ||
 
         {{ include('questions/_delete_form.html.twig') }}
     {% endif %}
