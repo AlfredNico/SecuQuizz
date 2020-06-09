@@ -145,14 +145,13 @@ class QuestionsController extends AbstractController
                 $em->flush();
 
                 $session->clear();
-
                 $user_article = $this->getDoctrine()->getRepository(Users::class)->findOneBy(['id'=>$EntiteArticle->getUsers()]);
 
                 // Create a message
                 $message = (new \Swift_Message("Ajout question | Secu Quizz"))
-                ->setFrom("alfrednicotsu@gmail.com")
-                ->setTo($$user_article->getEmail())
-                ->setBody("Une question à été ajouté à partir de l'arcticle que vous avez créer");
+                  ->setFrom("fahtialalaina2@gmail.com")
+                    ->setTo($user_article->getEmail())
+                    ->setBody("Salut, un utilisateur vient de poster une ou des questions dans Secu-Quizz!");
 
                 $mailer->send($message);
 

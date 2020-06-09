@@ -48,11 +48,11 @@
                     </td>
                     <td> {{ user.families|length }} </td>
                     {# <td> {{ user.questions|length }} </td> #}
-                    <td> 
+                    {# <td> 
                         {% for niveau in user.niveau %}
                             {{ niveau.title }},
                         {% endfor %}
-                    </td>
+                    </td> #}
                     <td>
                         {% if test == 1 %}
                             <a href="{{ path('admin_modifier_admin_user', {'id': user.id } ) }}" class="btn btn-sm btn-outline-primary">Modifier</a>
