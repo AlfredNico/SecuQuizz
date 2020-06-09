@@ -22,7 +22,7 @@
                 <th>E-mail</th>
                 <th>Rôles</th>
                 <th>Nombre Articles</th>
-                <th>Nombre Question</th>
+                {# <th>Nombre Question</th> #}
                 <th>Niveau(s)</th>
                 <th>Action</th>
             </tr>
@@ -47,7 +47,7 @@
                         {% endfor %}
                     </td>
                     <td> {{ user.families|length }} </td>
-                    <td> {{ user.questions|length }} </td>
+                    {# <td> {{ user.questions|length }} </td> #}
                     <td> 
                         {% for niveau in user.niveau %}
                             {{ niveau.title }},

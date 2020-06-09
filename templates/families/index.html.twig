@@ -114,7 +114,7 @@
         </p>
     {% endif %}
 
-    <table class="table">
+    <table class="table table-sm" id="myTable">
         <thead>
             <tr>
                 <th></th>
@@ -169,12 +169,12 @@
                     {% if (is_granted('ROLE_EDITOR')and app.user.article != null) 
                         or is_granted('ROLE_ADMIN') %}
                         <td>
-                            <a href="{{ path('families_show', {'id': family.id, 'min': min}) }}">Détails</a>
-                            <a href="{{ path('families_edit', {'id': family.id, 'min': min}) }}">Modifier</a>
+                            <a href="{{ path('families_show', {'id': family.id, 'min': min}) }}" class="btn btn-sm btn-info">Détails</a>
+                            <a href="{{ path('families_edit', {'id': family.id, 'min': min}) }}" class="btn btn-sm btn-success">Modifier</a>
                             {% if family.etat == false %}
-                                <a href="{{ path('families_activation', {'id': family.id, 'min': min}) }}">Désactiver</a>
+                                <a href="{{ path('families_activation', {'id': family.id, 'min': min}) }}" class="btn btn-sm btn-primary">Désactiver</a>
                             {% else %}
-                                <a href="{{ path('families_activation', {'id': family.id, 'min': min}) }}">Activer</a>
+                                <a href="{{ path('families_activation', {'id': family.id, 'min': min}) }}" class="btn btn-sm btn-primary">Activer</a>
                             {% endif %}
 
                             
@@ -221,7 +221,7 @@
             {% set famili = famil %}
         {% endfor %}
         {% if familis == null %}
-            <a href="{{ path('families_new_niveau1', {'niveau': min}) }}">Ajouter</a>
+            <a href="{{ path('families_new_niveau1', {'niveau': min}) }}">Ajouter article</a>
         {# {% elseif famili.parent == null %}
             <a href="{{ path('families_new_niveau1', {'niveau': min}) }}">Ajouter</a> #}
         {% else %}
@@ -244,8 +244,7 @@
                 {% endif %}
             {% endfor %}
             {# {% if i <= 1 %} #}
-            <a
-                href="{{ path('families_new', {'parent': famili.id,'niveau': NiveauActuelle.id}) }}">Ajouter</a>
+            <a href="{{ path('families_new', {'parent': famili.id,'niveau': NiveauActuelle.id}) }}">Ajouter article</a>
             {# {% else %}
             <a
                 href="{{ path('families_new', {'parent': famili.id,'niveau': NiveauActuelle.id}) }}">Ajouter</a>

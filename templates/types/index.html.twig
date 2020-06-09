@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Types </h1>
     <div style="position: absolute; right: 0; margin-top: -50px; margin-right: 20px;">
-        <a href="{{ path('types_new') }}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i><span>  créer type</span></a>
+        <a href="{{ path('types_new') }}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i><span> créer type</span></a>
     </div>
 
     <table class="table table-sm" id="myTable">
@@ -22,8 +22,8 @@
                 <td>{{ type.id }}</td>
                 <td>{{ type.title }}</td>
                 <td>
-                    <a href="{{ path('types_show', {'id': type.id}) }}" class="btn btn-sm btn-outline-warning"><i class="mdi mdi-pencil"></i></a>
-                    <a href="{{ path('types_edit', {'id': type.id}) }}">editer</a>
+                    <a href="{{ path('types_show', {'id': type.id}) }}" class="btn btn-sm btn-default"><i class="mdi mdi-eye-outline"></i>détail</a>
+                    <a href="{{ path('types_edit', {'id': type.id}) }}" class="btn btn-sm btn-default"><i class="mdi mdi-lead-pencil"></i>editer</a>
                 </td>
             </tr>
         {% else %}

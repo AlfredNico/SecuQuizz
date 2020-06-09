@@ -3,11 +3,15 @@
 {% block title %}Questions{% endblock %}
 
 {% block body %}
-    {% if is_granted('ROLE_EDITOR')or is_granted('ROLE_ADMIN') %}
+    {% if is_granted('ROLE_EDITOR') or is_granted('ROLE_ADMIN') %}
         <h1>Administrer Question</h1>
     {% else %}
         <h1>Liste des Questions</h1>
     {% endif %}
+
+    <div style="position: absolute; right: 0; margin-top: -50px; margin-right: 20px;">
+        <a href="{{ path('questions_new', {'id': article, 'article': article, 'parent': parent}) }}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i><span>  créer nouveau</span></a>
+    </div>
 
     <table class="table" id="myTable">
         <thead>
@@ -56,12 +60,10 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="8">no records found</td>
+                        <td colspan="8">Aucun enregistrement trouvé</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
 
-        <a
-            href="{{ path('questions_new', {'id': article, 'article': article, 'parent': parent}) }}">Create new</a>
     {% endblock %}
