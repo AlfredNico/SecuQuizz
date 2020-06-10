@@ -5,8 +5,8 @@ swiftmailer:
 
 # swiftmailer:
 #     transport:        gmail
-#     username:         alfrednicotsu@gmail.com
-#     password:         alfrednicoANDRIANJATOVO
+#     username:         **********@gmail.com
+#     password:         *********
 #     host:             localhost
 #     port:             465
 #     encryption:       ssl
