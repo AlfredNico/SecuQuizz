@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Questions{% endblock %}
+{% block title %}Questions | Secu Quizz{% endblock %}
 
 {% block body %}
     {% if is_granted('ROLE_EDITOR') or is_granted('ROLE_ADMIN') %}
@@ -10,10 +10,12 @@
     {% endif %}
 
     <div style="position: absolute; right: 0; margin-top: -50px; margin-right: 20px;">
+        <a href="{{ path('export_excel') }}" class="btn btn-sm btn-outline-primary"><i class="mdi mdi-file-export-outline" aria-hidden="true"></i><span> Exporter</span></a> ||
+        <a href="{{ path('import_excel', {'article': article, 'parent': parent}) }}" class="btn btn-sm btn-outline-primary"><i class="mdi mdi-file-import-outline" aria-hidden="true"></i><span> Importer</span></a> ||
         <a href="{{ path('questions_new', {'id': article, 'article': article, 'parent': parent}) }}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i><span>  créer nouveau</span></a>
     </div>
 
-    <table class="table" id="myTable">
+    <table class="table table-sm" id="myTable">
         <thead>
             <tr>
                 <th></th>
@@ -51,9 +53,9 @@
                             {% endfor %}
                         </td>
                         <td>
-                            <a href="{{ path('questions_show', {'id': question.id, 'article': article, 'parent': parent}) }}">show</a>
+                            <a href="{{ path('questions_show', {'id': question.id, 'article': article, 'parent': parent}) }}">détail</a> || 
                             {% if is_granted('ROLE_EDITOR')or is_granted('ROLE_ADMIN') %}
-                                <a href="{{ path('questions_edit', {'id': question.id, 'article': article, 'parent': parent}) }}">edit</a>
+                                <a href="{{ path('questions_edit', {'id': question.id, 'article': article, 'parent': parent}) }}">editer</a> ||
                                 <a href="{{ path('questions_validation', {'id': question.id, 'article': article, 'parent': parent}) }}">Validation</a>
                             {% endif %}
                         </td>

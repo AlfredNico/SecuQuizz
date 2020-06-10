@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class QuestionsValidationType extends AbstractType
 {
@@ -19,9 +20,16 @@ class QuestionsValidationType extends AbstractType
                     'Refuser' => false,
                 ],
                 'expanded' => true,
-                'multiple' => false
+                'multiple' => false,
+                'attr' => [
+                    'class' => 'form-control'
+                ]
             ])
-            ->add('motif');
+            ->add('motif', TextareaType::class, [
+                'attr' => [
+                    'class' => 'form-control', 'placeholder' => 'Modif ...'
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

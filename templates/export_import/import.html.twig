@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil | Gestion de Commande{% endblock %}
+{% block title %}Import | Secu Quizz{% endblock %}
 
 {% block entete %}
     <!-- ============================================================== -->
@@ -14,7 +14,7 @@
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{{ path('accueil') }}">Accueil</a></li>
-                                    <li class="breadcrumb-item"><a href="{{ path('export') }}">Exporter</a></li>
+                                    <li class="breadcrumb-item"><a href="{{ path('export_excel') }}">Exporter</a></li>
                                      {% if is_granted('ROLE_ADMIN') %}
                                         <li class="breadcrumb-item active" aria-current="page"><a href="{{ path('admin_utilisateurs') }}">Utilisateur</a></li>
                                     {% endif %}

@@ -18,9 +18,9 @@
         </tbody>
     </table>
     {% if family.parent != null %}
-        <a href="{{ path('families_niveau', {'id': family.parent.id}) }}">retour aux articles</a>
+        <a href="{{ path('families_niveau', {'id': family.parent.id}) }}">retour aux articles</a> ||
     {% else %}
-        <a href="{{ path('families_index', {'niveau': min}) }}">retour aux articles</a>
+        <a href="{{ path('families_index', {'niveau': min}) }}">retour aux articles</a> ||
     {% endif %}
 
     <a href="{{ path('families_edit', {'id': family.id, 'min': min}) }}">Editer</a>

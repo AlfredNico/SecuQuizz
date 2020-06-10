@@ -110,7 +110,6 @@ class Families
     public function setParent(?self $parent): self
     {
         $this->parent = $parent;
-
         return $this;
     }
 

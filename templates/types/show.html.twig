@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Types{% endblock %}
+{% block title %}Types | Secu Quizz{% endblock %}
 
 {% block body %}
     <h1>Types</h1>
@@ -18,9 +18,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('types_index') }}">back to list</a>
+    <a href="{{ path('types_index') }}">retour aux types</a> ||
 
-    <a href="{{ path('types_edit', {'id': type.id}) }}">edit</a>
+    <a href="{{ path('types_edit', {'id': type.id}) }}">editer</a>
 
     {{ include('types/_delete_form.html.twig') }}
 {% endblock %}

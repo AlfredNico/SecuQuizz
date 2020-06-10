@@ -5,8 +5,8 @@ swiftmailer:
 
 # swiftmailer:
 #     transport:        gmail
-#     username:         *******@gmail.com
-#     password:         *************
+#     username:         alfrednicotsu@gmail.com
+#     password:         alfrednicoANDRIANJATOVO
 #     host:             localhost
 #     port:             465
 #     encryption:       ssl
@@ -14,6 +14,6 @@ swiftmailer:
 #     spool: { type: 'memory' }
 #     stream_options:
 #         ssl:
-#             allow_self_signed: true
-#             verify_peer: false
-#             verify_peer_name: false
+            # allow_self_signed: true
+            # verify_peer: false
+            # verify_peer_name: false

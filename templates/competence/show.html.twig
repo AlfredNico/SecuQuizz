@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Compétence{% endblock %}
+{% block title %}Compétence | Seuc Quizz{% endblock %}
 
 {% block body %}
     <h1>Détails de la Compétence</h1>
@@ -18,7 +18,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('competence_index', {'article': article, 'parent': parent}) }}">Retour à la liste</a>
+    <a href="{{ path('competence_index', {'article': article, 'parent': parent}) }}">Retour à la liste</a> ||
 
     <a href="{{ path('competence_edit', {'id': competence.id, 'article': article, 'parent': parent}) }}">Modifier</a>
 
