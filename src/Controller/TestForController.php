@@ -20,9 +20,9 @@ class TestForController extends AbstractController
     {
         // Create a message
         $message = (new \Swift_Message("Test Mail From Fandresena"))
-            ->setFrom("fahtialalaina2@gmail.com")
-            ->setTo("alfrednicotsu@gmail.com")
-            ->setBody("Salut Nico");
+            ->setFrom("alfrednicotsu@gmail.com")
+            ->setTo("fahtialalaina2@gmail.com")
+            ->setBody("Salut Fah tialalaina");
 
         $mailer->send($message);
 

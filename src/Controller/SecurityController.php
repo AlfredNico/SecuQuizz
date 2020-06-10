@@ -90,7 +90,7 @@ class SecurityController extends AbstractController
             $url = $this->generateUrl('app_reset_password', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
 
             #On envoie le message
-            $message = (new \Swift_Message('Mot de passe oublié'))
+            $message = (new \Swift_Message('Mot de passe oublié | Secu Quizz'))
                 ->setFrom('notre@adresse.fr')
                 ->setTo($user->getEmail())
                 ->setBody(

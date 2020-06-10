@@ -6,6 +6,7 @@ use App\Entity\Answers;
 use App\Entity\Compteur;
 use App\Entity\Families;
 use App\Entity\Questions;
+use App\Entity\Users;
 use App\Form\AnswersType;
 use App\Form\QuestionsType;
 use App\Form\QuestionsValidationType;
@@ -62,24 +63,8 @@ class QuestionsController extends AbstractController
     /**
      * @Route("/new/{article}/{parent}", name="questions_new", methods={"GET","POST"})
      */
-    public function new(Request $request, SluggerInterface $slugger, $article, $parent): Response
+    public function new(Request $request, SluggerInterface $slugger, $article, $parent, \Swift_Mailer $mailer): Response
     {
-        // $question = new Questions();
-        // $form = $this->createForm(QuestionsType::class, $question);
-        // $form->handleRequest($request);
-
-        // if ($form->isSubmitted() && $form->isValid()) {
-        //     $entityManager = $this->getDoctrine()->getManager();
-        //     $entityManager->persist($question);
-        //     $entityManager->flush();
-
-        //     return $this->redirectToRoute('questions_index');
-        // }
-
-        // return $this->render('questions/new.html.twig', [
-        //     'question' => $question,
-        //     'form' => $form->createView(),
-        // ]);
         $repository = $this->getDoctrine()->getRepository(Compteur::class);
         // $repository1 = $this->getDoctrine()->getRepository(Produit::class);
         $compteur = $repository->find(1);
@@ -153,18 +138,23 @@ class QuestionsController extends AbstractController
                 // $prod = $repository1->findOneBy(array('id' => $Tabcomm[$i]->getProduit()));
                 // $reponse->setProduit($prod);
 
-
-
-
-
                 $em->persist($question);
 
                 $compteur->setNumcom($numc + 1);
                 $em->persist($compteur);
                 $em->flush();
 
-
                 $session->clear();
+
+                $user_article = $this->getDoctrine()->getRepository(Users::class)->findOneBy(['id'=>$EntiteArticle->getUsers()]);
+
+                // Create a message
+                $message = (new \Swift_Message("Ajout question | Secu Quizz"))
+                ->setFrom("alfrednicotsu@gmail.com")
+                ->setTo($$user_article->getEmail())
+                ->setBody("Une question à été ajouté à partir de l'arcticle que vous avez créer");
+
+                $mailer->send($message);
 
                 return $this->redirectToRoute('questions_index', array('article' => $article, 'parent' => $parent));
             } else if ($choix == "Add") {
